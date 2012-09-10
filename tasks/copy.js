@@ -10,16 +10,16 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var path = require('path');
-
   // TODO: ditch this when grunt v0.4 is released
   grunt.util = grunt.util || grunt.utils;
 
-  var _ = grunt.util._;
-  var kindOf = grunt.util.kindOf;
-  var helpers = require('grunt-contrib-lib').init(grunt);
-
   grunt.registerMultiTask('copy', 'Copy files.', function() {
+
+    var _ = grunt.util._;
+    var kindOf = grunt.util.kindOf;
+    var path = require('path');
+    var helpers = require('grunt-contrib-lib').init(grunt);
+
     var options = helpers.options(this, {
       basePath: false,
       flatten: false,
