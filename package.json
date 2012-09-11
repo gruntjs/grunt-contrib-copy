@@ -28,7 +28,8 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt-contrib-lib": "~0.2.0"
+    "grunt-contrib-lib": "~0.2.0",
+    "underscore": "*"
   },
   "devDependencies": {
     "grunt": "~0.3.15",
