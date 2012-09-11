@@ -10,6 +10,9 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var path = require('path');
+  var _ = require('underscore');
+
   // TODO: ditch this when grunt v0.4 is released
   grunt.util = grunt.util || grunt.utils;
 
@@ -17,7 +20,6 @@ module.exports = function(grunt) {
 
     var _ = grunt.util._;
     var kindOf = grunt.util.kindOf;
-    var path = require('path');
     var helpers = require('grunt-contrib-lib').init(grunt);
 
     var options = helpers.options(this, {
