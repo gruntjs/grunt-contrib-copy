@@ -17,6 +17,8 @@ This defines what files this task will copy and should contain key:value pairs.
 
 The key (destination) should be an unique path (supports [grunt.template](https://github.com/cowboy/grunt/blob/master/docs/api_template.md)) and the value (source) should be a filepath or an array of filepaths (supports [minimatch](https://github.com/isaacs/minimatch)).
 
+As of v0.2.2, when copying to a directory you must add a trailing slash to the destination due to added support of single file copy.
+
 ##### options ```object```
 
 This controls how this task operates and should contain key:value pairs, see options below.

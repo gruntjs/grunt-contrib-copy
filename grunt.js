@@ -47,8 +47,8 @@ module.exports = function(grunt) {
     copy: {
       test: {
         files: {
-          'tmp/copy_test_files': ['test/fixtures/*'],
-          'tmp/copy_test_v<%= test_vars.version %>': ['test/fixtures/**']
+          'tmp/copy_test_files/': ['test/fixtures/*'],
+          'tmp/copy_test_v<%= test_vars.version %>/': ['test/fixtures/**']
         }
       },
 
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
           flatten: true
         },
         files: {
-          'tmp/copy_test_flatten': ['test/fixtures/**']
+          'tmp/copy_test_flatten/': ['test/fixtures/**']
         }
       },
 
@@ -68,7 +68,13 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'tmp/copy_minimatch': ['test/fixtures/*']
+          'tmp/copy_minimatch/': ['test/fixtures/*']
+        }
+      },
+
+      single: {
+        files: {
+          'tmp/copy_single/testing.js': ['test/fixtures/test.js']
         }
       }
     },

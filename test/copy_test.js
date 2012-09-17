@@ -7,7 +7,7 @@ exports['copy'] = {
 
     var expect, result;
 
-    test.expect(4);
+    test.expect(5);
 
     expect = ['test.css', 'test.js'].sort();
     result = fs.readdirSync('tmp/copy_test_files').sort();
@@ -24,6 +24,10 @@ exports['copy'] = {
     expect = ['.hidden', 'test.css', 'test.js'].sort();
     result = fs.readdirSync('tmp/copy_minimatch').sort();
     test.deepEqual(expect, result, 'should allow for minimatch dot option');
+
+    expect = ['testing.js'];
+    result = fs.readdirSync('tmp/copy_single');
+    test.deepEqual(expect, result, 'should allow for single file copy');
 
     test.done();
   }

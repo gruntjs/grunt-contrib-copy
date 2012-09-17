@@ -1,7 +1,7 @@
 {
   "name": "grunt-contrib-copy",
   "description": "Copy files and folders.",
-  "version": "0.2.1",
+  "version": "0.2.2pre",
   "homepage": "https://github.com/gruntjs/grunt-contrib-copy",
   "author": {
     "name": "Chris Talkington",
