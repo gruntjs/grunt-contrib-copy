@@ -66,10 +66,11 @@ These options will be forwarded on to expandFiles, as referenced in the [minimat
 copy: {
   dist: {
     files: {
-      "path/to/directory": "path/to/source/*", // includes files in dir
-      "path/to/directory": "path/to/source/**", // includes files in dir and subdirs
-      "path/to/project-<%= pkg.version %>": "path/to/source/**", // variables in destination
-      "path/to/directory": ["path/to/sources/*.js", "path/to/more/*.js"] // include JS files in two diff dirs
+      "path/to/directory/": "path/to/source/*", // includes files in dir
+      "path/to/directory/": "path/to/source/**", // includes files in dir and subdirs
+      "path/to/project-<%= pkg.version %>/": "path/to/source/**", // variables in destination
+      "path/to/directory/": ["path/to/sources/*.js", "path/to/more/*.js"], // include JS files in two diff dirs
+      "path/to/filename.ext": "path/to/source.ext"
     }
   }
 }
@@ -78,3 +79,4 @@ copy: {
 ## Release History
 
 * 2012/08/10 - v0.2.0 - Refactored from grunt-contrib into individual repo.
+* 2012/09/17 - v0.2.2 - single file copy support. test refactoring.
