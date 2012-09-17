@@ -16,8 +16,10 @@ module.exports = function(grunt) {
   var path = require('path');
   var _ = grunt.util._;
 
-  grunt.registerMultiTask('copy', 'Copy files.', function() {
+  // TODO: remove if/when we officially drop node <= 0.7.9
+  path.sep = path.sep || path.normalize('/');
 
+  grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
     var helpers = require('grunt-contrib-lib').init(grunt);
 
