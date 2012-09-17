@@ -9,25 +9,25 @@ exports['copy'] = {
 
     test.expect(5);
 
-    expect = ['test.css', 'test.js'].sort();
+    expect = fs.readdirSync('test/expected/copy_test_files').sort();
     result = fs.readdirSync('tmp/copy_test_files').sort();
     test.deepEqual(expect, result, 'should copy several files');
 
-    expect = ['folder_one', 'folder_two', 'test.css', 'test.js'].sort();
+    expect = fs.readdirSync('test/expected/copy_test_v0.1.0').sort();
     result = fs.readdirSync('tmp/copy_test_v0.1.0').sort();
     test.deepEqual(expect, result, 'should copy several folders and files (with template support)');
 
-    expect = ['one.css', 'one.js', 'test.css', 'test.js', 'two.css', 'two.js'].sort();
+    expect = fs.readdirSync('test/expected/copy_test_flatten').sort();
     result = fs.readdirSync('tmp/copy_test_flatten').sort();
     test.deepEqual(expect, result, 'should create a flat structure');
 
-    expect = ['.hidden', 'test.css', 'test.js'].sort();
+    expect = fs.readdirSync('test/expected/copy_minimatch').sort();
     result = fs.readdirSync('tmp/copy_minimatch').sort();
     test.deepEqual(expect, result, 'should allow for minimatch dot option');
 
-    expect = ['testing.js'];
-    result = fs.readdirSync('tmp/copy_single');
-    test.deepEqual(expect, result, 'should allow for single file copy');
+    expect = grunt.file.read('test/expected/single.js');
+    result = grunt.file.read('tmp/single.js');
+    test.equal(expect, result, 'should allow for single file copy');
 
     test.done();
   }

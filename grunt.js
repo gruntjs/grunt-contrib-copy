@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 
       single: {
         files: {
-          'tmp/copy_single/testing.js': ['test/fixtures/test.js']
+          'tmp/single.js': ['test/fixtures/test.js']
         }
       }
     },
