@@ -63,11 +63,15 @@ module.exports = function(grunt) {
       basePath = options.basePath || findBasePath(srcFiles);
       destType = detectDestType(file.dest);
 
+      if (srcFiles.length === 0) {
+        grunt.fail.warn('Unable to copy; no valid source files were found.');
+      }
+
       if (destType === 'file') {
         if (srcFiles.length === 1) {
           srcFile = path.normalize(srcFiles[0]);
 
-          grunt.verbose.or.write('Copying file' + ' to ' + file.dest + '...');
+          grunt.verbose.or.write('Copying file' + ' to ' + file.dest.cyan + '...');
           grunt.file.copy(srcFile, file.dest);
 
           grunt.verbose.or.ok();
@@ -76,7 +80,7 @@ module.exports = function(grunt) {
         }
       } else if (destType === 'dir') {
         grunt.verbose.writeln('Base Path: ' + basePath.cyan);
-        grunt.verbose.or.write('Copying files' + ' to ' + file.dest + '...');
+        grunt.verbose.or.write('Copying files' + ' to ' + file.dest.cyan + '...');
 
         srcFiles.forEach(function(srcFile) {
           srcFile = path.normalize(srcFile);
