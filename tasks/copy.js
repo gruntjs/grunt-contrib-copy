@@ -60,12 +60,11 @@ module.exports = function(grunt) {
       file.dest = path.normalize(file.dest);
       srcFiles = grunt.file.expandFiles(options.minimatch, file.src);
 
-      basePath = options.basePath || findBasePath(srcFiles);
-      destType = detectDestType(file.dest);
-
       if (srcFiles.length === 0) {
         grunt.fail.warn('Unable to copy; no valid source files were found.');
       }
+
+      destType = detectDestType(file.dest);
 
       if (destType === 'file') {
         if (srcFiles.length === 1) {
@@ -79,6 +78,8 @@ module.exports = function(grunt) {
           grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
         }
       } else if (destType === 'dir') {
+        basePath = options.basePath || findBasePath(srcFiles);
+
         grunt.verbose.writeln('Base Path: ' + basePath.cyan);
         grunt.verbose.or.write('Copying files' + ' to ' + file.dest.cyan + '...');
 
