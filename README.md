@@ -78,7 +78,8 @@ copy: {
 
 ## Release History
 
+* 2012/09/24 - v0.2.5 - general cleanup and consolidation.
 * 2012/09/18 - v0.2.4 - no valid source check.
 * 2012/09/17 - v0.2.3 - path.sep fallback for node <= 0.7.9.
 * 2012/09/17 - v0.2.2 - single file copy support. test refactoring.
-* 2012/08/10 - v0.2.0 - Refactored from grunt-contrib into individual repo.
+* 2012/09/07 - v0.2.0 - Refactored from grunt-contrib into individual repo.

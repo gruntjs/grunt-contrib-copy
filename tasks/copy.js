@@ -14,7 +14,6 @@ module.exports = function(grunt) {
   grunt.util = grunt.util || grunt.utils;
 
   var path = require('path');
-  var _ = grunt.util._;
 
   // TODO: remove if/when we officially drop node <= 0.7.9
   path.sep = path.sep || path.normalize('/');
@@ -39,11 +38,6 @@ module.exports = function(grunt) {
       process: options.processContent,
       noProcess: options.processContentExclude
     };
-
-    if (options.basePath) {
-      options.basePath = path.normalize(options.basePath);
-      options.basePath = _(options.basePath).trim(path.sep);
-    }
 
     grunt.verbose.writeflags(options, 'Options');
 
@@ -77,8 +71,8 @@ module.exports = function(grunt) {
         } else {
           grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
         }
-      } else if (destType === 'dir') {
-        basePath = options.basePath || findBasePath(srcFiles);
+      } else if (destType === 'directory') {
+        basePath = helpers.findBasePath(srcFiles, options.basePath);
 
         grunt.verbose.writeln('Base Path: ' + basePath.cyan);
         grunt.verbose.or.write('Copying files' + ' to ' + file.dest.cyan + '...');
@@ -90,8 +84,8 @@ module.exports = function(grunt) {
 
           if (options.flatten) {
             relative = '';
-          } else if (basePath && basePath.length > 1) {
-            relative = _(relative).chain().strRight(basePath).trim(path.sep).value();
+          } else if (basePath && basePath.length >= 1) {
+            relative = grunt.util._(relative).strRight(basePath).trim(path.sep);
           }
 
           if (options.processName && kindOf(options.processName) === 'function') {
@@ -111,25 +105,9 @@ module.exports = function(grunt) {
     });
   });
 
-  var findBasePath = function(srcFiles) {
-    var basePaths = [];
-    var dirName;
-
-    srcFiles.forEach(function(srcFile) {
-      dirName = path.dirname(srcFile);
-      dirName = path.normalize(dirName);
-
-      basePaths.push(dirName.split(path.sep));
-    });
-
-    basePaths = _.intersection.apply([], basePaths);
-
-    return path.join.apply(path, basePaths);
-  };
-
   var detectDestType = function(dest) {
-    if (_.endsWith(dest, path.sep)) {
-      return 'dir';
+    if (grunt.util._.endsWith(dest, path.sep)) {
+      return 'directory';
     } else {
       return 'file';
     }
