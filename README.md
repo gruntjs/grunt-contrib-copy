@@ -1,4 +1,4 @@
-# grunt-contrib-copy
+# grunt-contrib-copy [![Build Status](https://secure.travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](http://travis-ci.org/gruntjs/grunt-contrib-copy)
 > Copy files and folders (part of the [grunt-contrib](https://github.com/gruntjs/grunt-contrib) collection). Submitted by [Chris Talkington](https://github.com/ctalkington).
 
 ### Recent Confusion
