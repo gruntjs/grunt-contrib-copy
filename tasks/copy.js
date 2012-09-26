@@ -28,7 +28,8 @@ module.exports = function(grunt) {
       processName: false,
       processContent: false,
       processContentExclude: [],
-      minimatch: {}
+      minimatch: {},
+      checkSource: true
     });
 
     // TODO: ditch this when grunt v0.4 is released
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
       file.dest = path.normalize(file.dest);
       srcFiles = grunt.file.expandFiles(options.minimatch, file.src);
 
-      if (srcFiles.length === 0) {
+      if (srcFiles.length === 0) && options.checkSource {
         grunt.fail.warn('Unable to copy; no valid source files were found.');
       }
 
