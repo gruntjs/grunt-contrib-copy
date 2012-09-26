@@ -60,6 +60,10 @@ This option is passed to `grunt.file.copy` as an advanced way to control which f
 
 These options will be forwarded on to expandFiles, as referenced in the [minimatch options section](https://github.com/isaacs/minimatch/#options)
 
+##### checkSource ```boolean```
+
+This option controls, if a source must exist to proceed with the copying process. Defaults to `true`.
+
 #### Config Example
 
 ``` javascript
