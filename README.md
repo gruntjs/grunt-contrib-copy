@@ -79,4 +79,4 @@ copy: {
 
 --
 
-Task submitted by [Chris Talkington](https://github.com/ctalkington).
+*Task submitted by [Chris Talkington](https://github.com/ctalkington).*
