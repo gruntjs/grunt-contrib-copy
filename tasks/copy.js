@@ -65,7 +65,7 @@ module.exports = function(grunt) {
           srcFile = path.normalize(srcFiles[0]);
 
           grunt.verbose.or.write('Copying file' + ' to ' + file.dest.cyan + '...');
-          grunt.file.copy(srcFile, file.dest);
+          grunt.file.copy(srcFile, file.dest, copyOptions);
 
           grunt.verbose.or.ok();
         } else {
