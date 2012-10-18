@@ -1,3 +1,7 @@
+v0.3.2:
+  date: 2012-10-18
+  changes:
+    - Pass copyOptions on single file copy
 v0.3.1:
   date: 2012-10-12
   changes:
