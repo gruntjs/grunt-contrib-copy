@@ -1,3 +1,7 @@
+v0.4.0:
+  data: 2012-11-16
+  changes:
+    - Conversion to grunt v0.4 conventions.
 v0.3.2:
   date: 2012-10-18
   changes:

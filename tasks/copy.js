@@ -10,13 +10,7 @@
 module.exports = function(grunt) {
   'use strict';
 
-  // TODO: ditch this when grunt v0.4 is released
-  grunt.util = grunt.util || grunt.utils;
-
   var path = require('path');
-
-  // TODO: remove if/when we officially drop node <= 0.7.9
-  path.sep = path.sep || path.normalize('/');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -31,9 +25,6 @@ module.exports = function(grunt) {
       minimatch: {}
     });
 
-    // TODO: ditch this when grunt v0.4 is released
-    this.files = this.files || helpers.normalizeMultiTaskFiles(this.data, this.target);
-
     var copyOptions = {
       process: options.processContent,
       noProcess: options.processContentExclude
@@ -41,68 +32,62 @@ module.exports = function(grunt) {
 
     grunt.verbose.writeflags(options, 'Options');
 
-    var srcFiles;
-    var destType;
+    var dest = path.normalize(this.file.dest);
+    var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.src);
 
-    var basePath;
-    var filename;
-    var relative;
-    var destFile;
-    var srcFile;
+    if (srcFiles.length === 0) {
+      grunt.fail.warn('Unable to copy; no valid source files were found.');
+    }
 
-    this.files.forEach(function(file) {
-      file.dest = path.normalize(file.dest);
-      srcFiles = grunt.file.expandFiles(options.minimatch, file.src);
+    var destType = detectDestType(dest);
 
-      if (srcFiles.length === 0) {
-        grunt.fail.warn('Unable to copy; no valid source files were found.');
-      }
+    if (destType === 'file') {
+      if (srcFiles.length === 1) {
+        var srcFile = path.normalize(srcFiles[0]);
 
-      destType = detectDestType(file.dest);
-
-      if (destType === 'file') {
-        if (srcFiles.length === 1) {
-          srcFile = path.normalize(srcFiles[0]);
-
-          grunt.verbose.or.write('Copying file' + ' to ' + file.dest.cyan + '...');
-          grunt.file.copy(srcFile, file.dest, copyOptions);
-
-          grunt.verbose.or.ok();
-        } else {
-          grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
-        }
-      } else if (destType === 'directory') {
-        basePath = helpers.findBasePath(srcFiles, options.basePath);
-
-        grunt.verbose.writeln('Base Path: ' + basePath.cyan);
-        grunt.verbose.or.write('Copying files' + ' to ' + file.dest.cyan + '...');
-
-        srcFiles.forEach(function(srcFile) {
-          srcFile = path.normalize(srcFile);
-          filename = path.basename(srcFile);
-          relative = path.dirname(srcFile);
-
-          if (options.flatten) {
-            relative = '';
-          } else if (basePath && basePath.length >= 1) {
-            relative = grunt.util._(relative).strRight(basePath).trim(path.sep);
-          }
-
-          if (options.processName && kindOf(options.processName) === 'function') {
-            filename = options.processName(filename);
-          }
-
-          // make paths outside grunts working dir relative
-          relative = relative.replace(/\.\.(\/|\\)/g, '');
-
-          destFile = path.join(file.dest, relative, filename);
-
-          grunt.file.copy(srcFile, destFile, copyOptions);
-        });
+        grunt.verbose.or.write('Copying file' + ' to ' + dest.cyan + '...');
+        grunt.file.copy(srcFile, dest, copyOptions);
 
         grunt.verbose.or.ok();
+      } else {
+        grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
       }
-    });
+    } else if (destType === 'directory') {
+      var basePath = helpers.findBasePath(srcFiles, options.basePath);
+
+      grunt.verbose.writeln('Base Path: ' + basePath.cyan);
+      grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
+
+      var destFile;
+      var filename;
+      var relative;
+
+      srcFiles.forEach(function(srcFile) {
+        srcFile = path.normalize(srcFile);
+        filename = path.basename(srcFile);
+        relative = path.dirname(srcFile);
+
+        if (options.flatten) {
+          relative = '';
+        } else if (basePath && basePath.length >= 1) {
+          relative = grunt.util._(relative).strRight(basePath);
+          relative = grunt.util._(relative).trim(path.sep);
+        }
+
+        if (options.processName && kindOf(options.processName) === 'function') {
+          filename = options.processName(filename);
+        }
+
+        // make paths outside grunts working dir relative
+        relative = relative.replace(/\.\.(\/|\\)/g, '');
+
+        destFile = path.join(dest, relative, filename);
+
+        grunt.file.copy(srcFile, destFile, copyOptions);
+      });
+
+      grunt.verbose.or.ok();
+    }
   });
 
   var detectDestType = function(dest) {
