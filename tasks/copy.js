@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     var helpers = require('grunt-lib-contrib').init(grunt);
 
     var options = helpers.options(this, {
-      basePath: false,
+      cwd: '',
       flatten: false,
       processName: false,
       processContent: false,
@@ -30,20 +30,26 @@ module.exports = function(grunt) {
       noProcess: options.processContentExclude
     };
 
+    if (options.cwd.length > 0) {
+      options.minimatch.cwd = options.cwd;
+    }
+
     grunt.verbose.writeflags(options, 'Options');
 
     var dest = path.normalize(this.file.dest);
-    var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.src);
+    var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.srcRaw);
 
     if (srcFiles.length === 0) {
       grunt.fail.warn('Unable to copy; no valid source files were found.');
     }
 
+    var srcFile;
+
     var destType = detectDestType(dest);
 
     if (destType === 'file') {
       if (srcFiles.length === 1) {
-        var srcFile = path.normalize(srcFiles[0]);
+        srcFile = path.join(options.cwd, srcFiles[0]);
 
         grunt.verbose.or.write('Copying file' + ' to ' + dest.cyan + '...');
         grunt.file.copy(srcFile, dest, copyOptions);
@@ -53,35 +59,28 @@ module.exports = function(grunt) {
         grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
       }
     } else if (destType === 'directory') {
-      var basePath = helpers.findBasePath(srcFiles, options.basePath);
-
-      grunt.verbose.writeln('Base Path: ' + basePath.cyan);
       grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
 
       var destFile;
-      var filename;
-      var relative;
 
-      srcFiles.forEach(function(srcFile) {
-        srcFile = path.normalize(srcFile);
-        filename = path.basename(srcFile);
-        relative = path.dirname(srcFile);
+      var fileName;
+      var filePath;
 
-        if (options.flatten) {
-          relative = '';
-        } else if (basePath && basePath.length >= 1) {
-          relative = grunt.util._(relative).strRight(basePath);
-          relative = grunt.util._(relative).trim(path.sep);
-        }
+      srcFiles.forEach(function(file) {
+        fileName = path.basename(file);
+        filePath = path.dirname(file);
+
+        srcFile = path.join(options.cwd, file);
 
         if (options.processName && kindOf(options.processName) === 'function') {
-          filename = options.processName(filename);
+          fileName = options.processName(fileName) || fileName;
         }
 
-        // make paths outside grunts working dir relative
-        relative = relative.replace(/\.\.(\/|\\)/g, '');
-
-        destFile = path.join(dest, relative, filename);
+        if (options.flatten) {
+          destFile = path.join(dest, fileName);
+        } else {
+          destFile = path.join(dest, filePath, fileName);
+        }
 
         grunt.file.copy(srcFile, destFile, copyOptions);
       });
