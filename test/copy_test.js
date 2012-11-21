@@ -2,18 +2,18 @@ var grunt = require('grunt');
 var fs = require('fs');
 
 exports.copy = {
-  test: function(test) {
+  main: function(test) {
     'use strict';
 
     test.expect(2);
 
     var actual = fs.readdirSync('tmp/copy_test_files').sort();
     var expected = fs.readdirSync('test/expected/copy_test_files').sort();
-    test.deepEqual(expected, actual, 'should copy several files');
+    test.deepEqual(expected, actual, 'should copy several files (with cwd support)');
 
     actual = fs.readdirSync('tmp/copy_test_v0.1.0').sort();
     expected = fs.readdirSync('test/expected/copy_test_v0.1.0').sort();
-    test.deepEqual(expected, actual, 'should copy several folders and files (with template support)');
+    test.deepEqual(expected, actual, 'should copy several folders and files (with template and cwd support)');
 
     test.done();
   },

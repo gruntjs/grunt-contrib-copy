@@ -34,10 +34,13 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     copy: {
-      test: {
+      main: {
+        options: {
+          cwd: 'test/fixtures'
+        },
         files: {
-          'tmp/copy_test_files/': ['test/fixtures/*'],
-          'tmp/copy_test_v<%= test_vars.version %>/': ['test/fixtures/**']
+          'tmp/copy_test_files/': ['*'],
+          'tmp/copy_test_v<%= test_vars.version %>/': ['**']
         }
       },
 
@@ -52,12 +55,13 @@ module.exports = function(grunt) {
 
       minimatch: {
         options: {
+          cwd: 'test/fixtures',
           minimatch: {
             dot: true
           }
         },
         files: {
-          'tmp/copy_minimatch/': ['test/fixtures/*']
+          'tmp/copy_minimatch/': ['*']
         }
       },
 
