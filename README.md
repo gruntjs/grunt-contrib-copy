@@ -45,9 +45,6 @@ grunt.initConfig({
 })
 ```
 
-##### Recent Confusion
-
-Many expect this task to work like `cp` on *nix systems but it was designed to use grunt conventions including the use of minimatch regex. We are working hard to make this and other tasks suitable for advanced users but there are no current plans to emulate `cp`.
 ### Options
 
 #### files
@@ -59,10 +56,27 @@ The key (destination) should be an unique path (supports [grunt.template](https:
 
 As of v0.3.0, when copying to a directory you must add a trailing slash to the destination due to added support of single file copy.
 
-#### options.basePath
+#### options.cwd
 Type: `String`
 
-This option adjusts the folder structure when copied to the destination directory. When not explicitly set, best effort is made to locate the basePath by comparing all source filepaths left to right for a common pattern.
+This option sets the current working directory for use with the minimatch and copy process. This helps translate paths when copied so that the destination stucture matches the source structure exactly. Without a `cwd` set, all paths are relative to the gruntfile directory which can cause extra depth to be added to your copied structure when it may not be desired.
+
+```js
+copy: {
+  target: {
+    options: {
+      cwd: 'path/to/sources'
+    },
+    files: {
+      'tmp/test/': ['*', 'sub1/*']
+    }
+  }
+}
+```
+
+#### options.basePath
+
+As of v0.4, this option has been removed in favor of `cwd` which fits the copy process so much better.
 
 #### options.flatten
 Type: `Boolean`
@@ -118,7 +132,7 @@ copy: {
 
 ## Release History
 
- * 2012-11-16 - v0.4.0 - Conversion to grunt v0.4 conventions.
+ * 2012-11-21 - v0.4.0 - Conversion to grunt v0.4 conventions. Replace basePath with cwd which is much smarter and understandable.
  * 2012-10-17 - v0.3.2 - Pass copyOptions on single file copy
  * 2012-10-11 - v0.3.1 - Rename grunt-contrib-lib dep to grunt-lib-contrib.
  * 2012-09-23 - v0.3.0 - General cleanup and consolidation. Global options depreciated.
@@ -130,4 +144,4 @@ copy: {
 --
 Task submitted by <a href="http://christalkington.com/">Chris Talkington</a>.
 
-*Generated on Fri Nov 16 2012 13:43:20.*
+*Generated on Wed Nov 21 2012 00:51:53.*

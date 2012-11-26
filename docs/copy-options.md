@@ -9,10 +9,27 @@ The key (destination) should be an unique path (supports [grunt.template](https:
 
 As of v0.3.0, when copying to a directory you must add a trailing slash to the destination due to added support of single file copy.
 
-## options.basePath
+## options.cwd
 Type: `String`
 
-This option adjusts the folder structure when copied to the destination directory. When not explicitly set, best effort is made to locate the basePath by comparing all source filepaths left to right for a common pattern.
+This option sets the current working directory for use with the minimatch and copy process. This helps translate paths when copied so that the destination stucture matches the source structure exactly. Without a `cwd` set, all paths are relative to the gruntfile directory which can cause extra depth to be added to your copied structure when it may not be desired.
+
+```js
+copy: {
+  target: {
+    options: {
+      cwd: 'path/to/sources'
+    },
+    files: {
+      'tmp/test/': ['*', 'sub1/*']
+    }
+  }
+}
+```
+
+## options.basePath
+
+As of v0.4, this option has been removed in favor of `cwd` which fits the copy process so much better.
 
 ## options.flatten
 Type: `Boolean`
