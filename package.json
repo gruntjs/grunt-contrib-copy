@@ -25,7 +25,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "./node_modules/.bin/grunt test"
   },
   "dependencies": {
     "grunt-lib-contrib": "~0.4.0"
@@ -35,7 +35,8 @@
     "grunt-contrib-nodeunit": "~0.1.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-internal": "*",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "grunt-cli": "~0.1.1"
   },
   "keywords": [
     "gruntplugin"
