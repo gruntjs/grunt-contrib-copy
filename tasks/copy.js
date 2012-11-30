@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 
     var options = helpers.options(this, {
       cwd: '',
+      excludeEmpty: false,
       flatten: false,
       processName: false,
       processContent: false,
@@ -37,10 +38,12 @@ module.exports = function(grunt) {
     grunt.verbose.writeflags(options, 'Options');
 
     var dest = path.normalize(this.file.dest);
+
+    var srcDirs = grunt.file.expandDirs(options.minimatch, this.file.srcRaw);
     var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.srcRaw);
 
-    if (srcFiles.length === 0) {
-      grunt.fail.warn('Unable to copy; no valid source files were found.');
+    if (srcFiles.length === 0 && options.excludeEmpty) {
+      grunt.fail.warn('Unable to copy; no valid sources were found.');
     }
 
     var srcFile;
@@ -59,9 +62,22 @@ module.exports = function(grunt) {
         grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
       }
     } else if (destType === 'directory') {
-      grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
-
+      var destDir;
       var destFile;
+
+      if (options.flatten === false && options.excludeEmpty === false && srcDirs.length > 0) {
+        grunt.verbose.or.write('Creating directories' + ' in ' + dest.cyan + '...');
+
+        srcDirs.forEach(function(dir) {
+          destDir = path.join(dest, dir);
+
+          grunt.file.mkdir(destDir);
+        });
+
+        grunt.verbose.or.ok();
+      }
+
+      grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
 
       var fileName;
       var filePath;

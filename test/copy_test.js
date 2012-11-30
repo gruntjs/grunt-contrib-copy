@@ -5,15 +5,19 @@ exports.copy = {
   main: function(test) {
     'use strict';
 
-    test.expect(2);
+    test.expect(3);
 
     var actual = fs.readdirSync('tmp/copy_test_files').sort();
     var expected = fs.readdirSync('test/expected/copy_test_files').sort();
-    test.deepEqual(expected, actual, 'should copy several files (with cwd support)');
+    test.deepEqual(expected, actual, 'should copy several files');
+
+    actual = fs.readdirSync('tmp/copy_test_mix').sort();
+    expected = fs.readdirSync('test/expected/copy_test_mix').sort();
+    test.deepEqual(expected, actual, 'should copy a mix of folders and files');
 
     actual = fs.readdirSync('tmp/copy_test_v0.1.0').sort();
     expected = fs.readdirSync('test/expected/copy_test_v0.1.0').sort();
-    test.deepEqual(expected, actual, 'should copy several folders and files (with template and cwd support)');
+    test.deepEqual(expected, actual, 'should parse both dest and src templates');
 
     test.done();
   },
