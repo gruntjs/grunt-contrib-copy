@@ -20,6 +20,12 @@ copy: {
 }
 ```
 
+## excludeEmpty
+Type: `Boolean`
+Default: false
+
+This option excludes empty folders from being copied to the destination directory.
+
 ## flatten
 Type: `Boolean`
 Default: false

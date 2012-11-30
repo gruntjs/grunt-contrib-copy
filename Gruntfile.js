@@ -9,6 +9,10 @@
 module.exports = function(grunt) {
   'use strict';
 
+  // Make an empty dir for testing as git doesn't track empty folders.
+  grunt.file.mkdir('test/fixtures/empty_folder');
+  grunt.file.mkdir('test/expected/copy_test_mix/empty_folder');
+
   // Project configuration.
   grunt.initConfig({
     jshint: {
@@ -29,7 +33,8 @@ module.exports = function(grunt) {
 
     test_vars: {
       name: 'grunt-contrib-copy',
-      version: '0.1.0'
+      version: '0.1.0',
+      match: 'folder_one/*'
     },
 
     // Configuration to be run (and then tested).
@@ -39,8 +44,9 @@ module.exports = function(grunt) {
           cwd: 'test/fixtures'
         },
         files: {
-          'tmp/copy_test_files/': ['*'],
-          'tmp/copy_test_v<%= test_vars.version %>/': ['**']
+          'tmp/copy_test_files/': ['*.*'],
+          'tmp/copy_test_mix/': ['**'],
+          'tmp/copy_test_v<%= test_vars.version %>/': ['<%= test_vars.match %>']
         }
       },
 
@@ -56,6 +62,7 @@ module.exports = function(grunt) {
       minimatch: {
         options: {
           cwd: 'test/fixtures',
+          excludeEmpty: true,
           minimatch: {
             dot: true
           }
