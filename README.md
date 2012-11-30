@@ -43,6 +43,12 @@ copy: {
 }
 ```
 
+#### excludeEmpty
+Type: `Boolean`
+Default: false
+
+This option excludes empty folders from being copied to the destination directory.
+
 #### flatten
 Type: `Boolean`
 Default: false
@@ -99,8 +105,8 @@ copy: {
 
 ## Release History
 
- * 2012-11-28   v0.4.0   Conversion to grunt v0.4 conventions. Replace basePath with cwd
- * 2012-10-17   v0.3.2   Pass copyOptions on single file copy
+ * 2012-11-29   v0.4.0   Conversion to grunt v0.4 conventions. Replace basePath with cwd. Empty directory support.
+ * 2012-10-17   v0.3.2   Pass copyOptions on single file copy.
  * 2012-10-11   v0.3.1   Rename grunt-contrib-lib dep to grunt-lib-contrib.
  * 2012-09-23   v0.3.0   General cleanup and consolidation. Global options depreciated.
  * 2012-09-17   v0.2.4   No valid source check.
@@ -112,4 +118,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Nov 28 2012 08:36:21.*
+*This file was generated on Thu Nov 29 2012 20:23:02.*
