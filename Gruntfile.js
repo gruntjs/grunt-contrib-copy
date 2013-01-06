@@ -40,41 +40,62 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     copy: {
       main: {
-        options: {
-          cwd: 'test/fixtures'
-        },
-        files: {
-          'tmp/copy_test_files/': ['*.*'],
-          'tmp/copy_test_mix/': ['**'],
-          'tmp/copy_test_v<%= test_vars.version %>/': ['<%= test_vars.match %>']
-        }
+        // options: {
+        //   cwd: 'test/fixtures'
+        // },
+        files: [{
+            dest: 'tmp/copy_test_files/',
+            src: '*.*',
+            cwd: 'test/fixtures',
+            expand: true
+          }, {
+            dest: 'tmp/copy_test_mix/',
+            src: '**/*',
+            cwd: 'test/fixtures',
+            expand: true
+          }, {
+            dest: 'tmp/copy_test_v<%= test_vars.version %>/',
+            src: '<%= test_vars.match %>',
+            cwd: 'test/fixtures',
+            expand: true
+        }]
       },
 
       flatten: {
-        options: {
+        files: [{
+          dest: 'tmp/copy_test_flatten',
+          src: 'test/fixtures/**',
+          filter: 'isFile',
+          expand: true,
           flatten: true
-        },
-        files: {
-          'tmp/copy_test_flatten/': ['test/fixtures/**']
-        }
+        }]
       },
 
       minimatch: {
         options: {
-          cwd: 'test/fixtures',
-          excludeEmpty: true,
-          minimatch: {
-            dot: true
-          }
+          excludeEmpty: true
         },
-        files: {
-          'tmp/copy_minimatch/': ['*']
-        }
+        files: [{
+          dest: 'tmp/copy_minimatch',
+          src: '*',
+          cwd: 'test/fixtures',
+          dot: true,
+          expand: true
+        }]
       },
 
       single: {
         files: {
           'tmp/single.js': ['test/fixtures/test.js']
+        }
+      },
+
+      directory: {
+        options: {
+          excludeEmpty: true
+        },
+        files: {
+          'tmp/copy_directory/': ['test/fixtures/**/*']
         }
       }
     },

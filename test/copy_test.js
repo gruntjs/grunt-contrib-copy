@@ -43,6 +43,17 @@ exports.copy = {
 
     test.done();
   },
+  directory: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    var actual = fs.readdirSync('tmp/copy_directory').sort();
+    var expected = fs.readdirSync('test/expected/copy_directory').sort();
+    test.deepEqual(expected, actual, 'should allow for dest to be a directory');
+
+    test.done();
+  },
   single: function(test) {
     'use strict';
 

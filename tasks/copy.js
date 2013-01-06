@@ -11,99 +11,56 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path');
+  var fs = require('fs');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
     var helpers = require('grunt-lib-contrib').init(grunt);
 
     var options = helpers.options(this, {
-      cwd: '',
       excludeEmpty: false,
-      flatten: false,
-      processName: false,
       processContent: false,
       processContentExclude: [],
-      minimatch: {}
     });
-
-    var copyOptions = {
-      process: options.processContent,
-      noProcess: options.processContentExclude
-    };
-
-    if (options.cwd.length > 0) {
-      options.minimatch.cwd = options.cwd;
-    }
 
     grunt.verbose.writeflags(options, 'Options');
 
     var dest = path.normalize(this.file.dest);
+    var src = this.file.src;
 
-    var srcDirs = grunt.file.expandDirs(options.minimatch, this.file.srcRaw);
-    var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.srcRaw);
-
-    if (srcFiles.length === 0 && options.excludeEmpty) {
+    if (src.length === 0 && options.excludeEmpty) {
       grunt.fail.warn('Unable to copy; no valid sources were found.');
     }
 
-    var srcFile;
-
-    var destType = detectDestType(dest);
-
-    if (destType === 'file') {
-      if (srcFiles.length === 1) {
-        srcFile = path.join(options.cwd, srcFiles[0]);
-
-        grunt.verbose.or.write('Copying file' + ' to ' + dest.cyan + '...');
-        grunt.file.copy(srcFile, dest, copyOptions);
-
-        grunt.verbose.or.ok();
+    if (detectDestType(dest) === 'directory') {
+      src.forEach(function(file) {
+        copy(file, dest + file, options);
+      });
+    } else {
+      if (src.length === 1) {
+        copy(src[0], dest, options);
       } else {
         grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
       }
-    } else if (destType === 'directory') {
-      var destDir;
-      var destFile;
-
-      if (options.flatten === false && options.excludeEmpty === false && srcDirs.length > 0) {
-        grunt.verbose.or.write('Creating directories' + ' in ' + dest.cyan + '...');
-
-        srcDirs.forEach(function(dir) {
-          destDir = path.join(dest, dir);
-
-          grunt.file.mkdir(destDir);
-        });
-
-        grunt.verbose.or.ok();
-      }
-
-      grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
-
-      var fileName;
-      var filePath;
-
-      srcFiles.forEach(function(file) {
-        fileName = path.basename(file);
-        filePath = path.dirname(file);
-
-        srcFile = path.join(options.cwd, file);
-
-        if (options.processName && kindOf(options.processName) === 'function') {
-          fileName = options.processName(fileName) || fileName;
-        }
-
-        if (options.flatten) {
-          destFile = path.join(dest, fileName);
-        } else {
-          destFile = path.join(dest, filePath, fileName);
-        }
-
-        grunt.file.copy(srcFile, destFile, copyOptions);
-      });
-
-      grunt.verbose.or.ok();
     }
   });
+
+  var copy = function(src, dest, options) {
+    if (fs.statSync(src).isDirectory()) {
+      if (!options.excludeEmpty) {
+        grunt.verbose.or.write('Creating directory ' + dest.cyan + '...');
+        grunt.file.mkdir(dest);
+        grunt.verbose.or.ok();
+      }
+    } else {
+      grunt.verbose.or.write('Copying ' + src.cyan + ' to ' + dest.cyan + '...');
+      grunt.file.copy(src, dest, {
+        process: options.processContent,
+        noProcess: options.processContentExclude
+      });
+      grunt.verbose.or.ok();
+    }
+  }
 
   var detectDestType = function(dest) {
     if (grunt.util._.endsWith(dest, path.sep)) {
