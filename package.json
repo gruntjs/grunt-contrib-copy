@@ -1,8 +1,8 @@
 {
-  "name": "grunt-contrib-copy",
-  "description": "Copy files and folders.",
-  "version": "0.4.0a",
-  "homepage": "https://github.com/gruntjs/grunt-contrib-copy",
+  "name": "dp-grunt-contrib-copy",
+  "description": "Copy files and folders. Forked from grunt-contrib-copy 0.4.1",
+  "version": "0.4.2",
+  "homepage": "https://github.com/dancingplatypus/grunt-contrib-copy",
   "author": {
     "name": "Grunt Team",
     "url": "http://gruntjs.com/"

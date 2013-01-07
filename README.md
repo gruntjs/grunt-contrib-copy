@@ -20,6 +20,8 @@ _Run this task with the `grunt copy` command._
 _This task is a [multi task][] so any targets, files and options should be specified according to the [multi task][] documentation._
 [multi task]: https://github.com/gruntjs/grunt/wiki/Configuring-tasks
 
+This task will preserve the modification timestamp of the original file.
+
 
 ### Options
 
@@ -81,10 +83,25 @@ Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
 
+#### onlyIf
+Type: `String` | `Function` Default 'always'
+
+Controls whether or not the file will be copied.
+
+If `onlyIf` is a function, is should have the signature: `fn(srcPath, destPath, srcStat, destStat)`
+and it should return `true` if the file is to be copied, `false` otherwise.
+
+If `onlyIf` is a string, then it must be one of:
+* **always** -- the source will always be copied to the destination
+* **newer** -- the source will only be copied if it is newer than the destination
+* **modified** -- the source will be copied if its timestamp is different than that of the destination
+* **missing** -- the source will only be copied if there is no destination file
+
 #### minimatch
 Type: `Object`
 
 These options will be forwarded on to expandFiles, as referenced in the [minimatch options section](https://github.com/isaacs/minimatch/#options)
+
 
 ### Usage Examples
 

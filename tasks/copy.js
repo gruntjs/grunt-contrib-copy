@@ -11,6 +11,54 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path');
+  var fs = require('fs');
+
+  /*
+   src and dest are complete paths to the source and destination files
+   copyOptions are the options to the grunt.file copy command
+   onlyIf - 'always'|'newer'|'missing'|'modified'|
+   */
+  var doCopy = function(src, dest, onlyIf, copyOptions) {
+     var okToCopy = true;
+
+     var statSrc = fs.statSync(src);
+     var statDest = fs.statSync(dest);
+
+     if (statDest !== null) {
+         var theType = toString.call(onlyIf);
+         if (theType == '[object String]') {
+             if (onlyIf !== 'always') {
+                 if (onlyIf === 'missing') {
+                     okToCopy = false;
+                 }
+                 else {
+                     if (onlyIf === 'newer') {
+                         if (statSrc.mtime.getTime() <= statDest.mtime.getTime()) okToCopy = false;
+                     }
+                     else if (onlyIf === 'modified') {
+                         if (statSrc.mtime.getTime() == statDest.mtime.getTime()) {
+                             okToCopy = false;
+                         }
+                     }
+                     else {
+                         grunt.warn('copy: onlyIf should be set to always|newer|missing|modified or '+
+                             'a function, assuming "always"'.yellow);
+                     }
+                 }
+             }
+         }
+         else if (theType == '[object Function]') {
+             okToCopy = onlyIf(src, dest, statSrc, statDest);
+         }
+     }
+
+     if (okToCopy) {
+         grunt.verbose.or.write('Copying file' + src.cyan + ' to ' + dest.cyan + '...');
+         grunt.file.copy(src, dest, copyOptions);
+         fs.utimes(dest, statSrc.atime, statSrc.mtime);
+     }
+  }
+
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -55,7 +103,7 @@ module.exports = function(grunt) {
         srcFile = path.join(options.cwd, srcFiles[0]);
 
         grunt.verbose.or.write('Copying file' + ' to ' + dest.cyan + '...');
-        grunt.file.copy(srcFile, dest, copyOptions);
+        doCopy(srcFile, destFile, options.onlyIf, copyOptions);
 
         grunt.verbose.or.ok();
       } else {
@@ -97,8 +145,7 @@ module.exports = function(grunt) {
         } else {
           destFile = path.join(dest, filePath, fileName);
         }
-
-        grunt.file.copy(srcFile, destFile, copyOptions);
+        doCopy(srcFile, destFile, options.onlyIf, copyOptions);
       });
 
       grunt.verbose.or.ok();
