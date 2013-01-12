@@ -21,55 +21,9 @@ _This task is a [multi task][] so any targets, files and options should be speci
 [multi task]: https://github.com/gruntjs/grunt/wiki/Configuring-tasks
 
 
+_Version `0.4.x` of this plugin is compatible with Grunt `0.4.x`. Version `0.3.x` of this plugin is compatible with Grunt `0.3.x`._
+
 ### Options
-
-#### cwd
-Type: `String`
-
-This option sets the current working directory for use with the minimatch and copy process. This helps translate paths when copied so that the destination stucture matches the source structure exactly. Without a `cwd` set, all paths are relative to the gruntfile directory which can cause extra depth to be added to your copied structure when it may not be desired.
-
-When copying to a directory you must add a trailing slash to the destination due to added support of single file copy.
-
-```js
-copy: {
-  target: {
-    options: {
-      cwd: 'path/to/sources'
-    },
-    files: {
-      'tmp/test/': ['*', 'sub1/*']
-    }
-  }
-}
-```
-
-#### excludeEmpty
-Type: `Boolean`
-Default: false
-
-This option excludes empty folders from being copied to the destination directory.
-
-#### flatten
-Type: `Boolean`
-Default: false
-
-This option performs a flat copy that dumps all the files into the root of the destination directory, overwriting files if they exist.
-
-#### processName
-Type: `Function`
-
-This option accepts a function that adjusts the filename of the copied file. Function is passed filename and should return a string.
-
-```js
-options: {
-  processName: function(filename) {
-    if (filename == "test.jpg") {
-      filename = "newname.jpg";
-    }
-    return filename;
-  }
-}
-```
 
 #### processContent
 Type: `Function`
@@ -81,23 +35,17 @@ Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
 
-#### minimatch
-Type: `Object`
-
-These options will be forwarded on to expandFiles, as referenced in the [minimatch options section](https://github.com/isaacs/minimatch/#options)
-
 ### Usage Examples
 
 ```js
 copy: {
-  dist: {
-    files: {
-      "path/to/directory/": "path/to/source/*", // includes files in dir
-      "path/to/directory/": "path/to/source/**", // includes files in dir and subdirs
-      "path/to/project-<%= pkg.version %>/": "path/to/source/**", // variables in destination
-      "path/to/directory/": ["path/to/sources/*.js", "path/to/more/*.js"], // include JS files in two diff dirs
-      "path/to/filename.ext": "path/to/source.ext"
-    }
+  main: {
+    files: [
+      {src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
+      {src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
+      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'}, // makes all src relative to cwd
+      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
+    ]
   }
 }
 ```
@@ -105,7 +53,7 @@ copy: {
 
 ## Release History
 
- * 2012-11-29   v0.4.0   Conversion to grunt v0.4 conventions. Replace basePath with cwd. Empty directory support.
+ * 2013-01-13   v0.4.0rc5   Updating to work with grunt v0.4.0rc5. Conversion to grunt v0.4 conventions. Replace basePath with cwd. Empty directory support.
  * 2012-10-17   v0.3.2   Pass copyOptions on single file copy.
  * 2012-10-11   v0.3.1   Rename grunt-contrib-lib dep to grunt-lib-contrib.
  * 2012-09-23   v0.3.0   General cleanup and consolidation. Global options depreciated.
@@ -118,4 +66,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Thu Nov 29 2012 20:23:02.*
+*This file was generated on Wed Jan 16 2013 00:16:55.*

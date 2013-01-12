@@ -1,6 +1,7 @@
-v0.4.0:
-  data: 2012-12-xx
+v0.4.0rc5:
+  date: 2013-01-14
   changes:
+    - Updating to work with grunt v0.4.0rc5.
     - Conversion to grunt v0.4 conventions.
     - Replace basePath with cwd.
     - Empty directory support.

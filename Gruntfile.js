@@ -40,42 +40,23 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     copy: {
       main: {
-        options: {
-          cwd: 'test/fixtures'
-        },
-        files: {
-          'tmp/copy_test_files/': ['*.*'],
-          'tmp/copy_test_mix/': ['**'],
-          'tmp/copy_test_v<%= test_vars.version %>/': ['<%= test_vars.match %>']
-        }
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_files/'},
+          {expand: true, cwd: 'test/fixtures', src: ['**'], dest: 'tmp/copy_test_mix/'},
+          {expand: true, cwd: 'test/fixtures', src: ['<%= test_vars.match %>'], dest: 'tmp/copy_test_v<%= test_vars.version %>/'}
+        ]
       },
 
       flatten: {
-        options: {
-          flatten: true
-        },
-        files: {
-          'tmp/copy_test_flatten/': ['test/fixtures/**']
-        }
-      },
-
-      minimatch: {
-        options: {
-          cwd: 'test/fixtures',
-          excludeEmpty: true,
-          minimatch: {
-            dot: true
-          }
-        },
-        files: {
-          'tmp/copy_minimatch/': ['*']
-        }
+        files: [
+          {expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**'], dest: 'tmp/copy_test_flatten/'}
+        ]
       },
 
       single: {
-        files: {
-          'tmp/single.js': ['test/fixtures/test.js']
-        }
+        files: [
+          {src: ['test/fixtures/test.js'], dest: 'tmp/single.js'}
+        ]
       }
     },
 
