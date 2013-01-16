@@ -17,13 +17,8 @@ module.exports = function(grunt) {
     var helpers = require('grunt-lib-contrib').init(grunt);
 
     var options = helpers.options(this, {
-      cwd: '',
-      excludeEmpty: false,
-      flatten: false,
-      processName: false,
       processContent: false,
-      processContentExclude: [],
-      minimatch: {}
+      processContentExclude: []
     });
 
     var copyOptions = {
@@ -31,85 +26,45 @@ module.exports = function(grunt) {
       noProcess: options.processContentExclude
     };
 
-    if (options.cwd.length > 0) {
-      options.minimatch.cwd = options.cwd;
-    }
-
     grunt.verbose.writeflags(options, 'Options');
 
-    var dest = path.normalize(this.file.dest);
+    var dest;
+    var isExpandedPair;
 
-    var srcDirs = grunt.file.expandDirs(options.minimatch, this.file.srcRaw);
-    var srcFiles = grunt.file.expandFiles(options.minimatch, this.file.srcRaw);
+    this.files.forEach(function(filePair) {
+      isExpandedPair = filePair.orig.expand || false;
 
-    if (srcFiles.length === 0 && options.excludeEmpty) {
-      grunt.fail.warn('Unable to copy; no valid sources were found.');
-    }
-
-    var srcFile;
-
-    var destType = detectDestType(dest);
-
-    if (destType === 'file') {
-      if (srcFiles.length === 1) {
-        srcFile = path.join(options.cwd, srcFiles[0]);
-
-        grunt.verbose.or.write('Copying file' + ' to ' + dest.cyan + '...');
-        grunt.file.copy(srcFile, dest, copyOptions);
-
-        grunt.verbose.or.ok();
-      } else {
-        grunt.fail.warn('Unable to copy multiple files to the same destination filename, did you forget a trailing slash?');
-      }
-    } else if (destType === 'directory') {
-      var destDir;
-      var destFile;
-
-      if (options.flatten === false && options.excludeEmpty === false && srcDirs.length > 0) {
-        grunt.verbose.or.write('Creating directories' + ' in ' + dest.cyan + '...');
-
-        srcDirs.forEach(function(dir) {
-          destDir = path.join(dest, dir);
-
-          grunt.file.mkdir(destDir);
-        });
-
-        grunt.verbose.or.ok();
-      }
-
-      grunt.verbose.or.write('Copying files' + ' to ' + dest.cyan + '...');
-
-      var fileName;
-      var filePath;
-
-      srcFiles.forEach(function(file) {
-        fileName = path.basename(file);
-        filePath = path.dirname(file);
-
-        srcFile = path.join(options.cwd, file);
-
-        if (options.processName && kindOf(options.processName) === 'function') {
-          fileName = options.processName(fileName) || fileName;
-        }
-
-        if (options.flatten) {
-          destFile = path.join(dest, fileName);
+      filePair.src.forEach(function(src) {
+        if (detectDestType(filePair.dest) === 'directory') {
+          dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
         } else {
-          destFile = path.join(dest, filePath, fileName);
+          dest = filePair.dest;
         }
 
-        grunt.file.copy(srcFile, destFile, copyOptions);
+        if (grunt.file.isDir(src)) {
+          grunt.log.writeln('Creating ' + dest.cyan);
+          grunt.file.mkdir(dest);
+        } else {
+          grunt.log.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          grunt.file.copy(src, dest, copyOptions);
+        }
       });
-
-      grunt.verbose.or.ok();
-    }
+    });
   });
 
   var detectDestType = function(dest) {
-    if (grunt.util._.endsWith(dest, path.sep)) {
+    if (grunt.util._.endsWith(dest, '/')) {
       return 'directory';
     } else {
       return 'file';
+    }
+  };
+
+  var unixifyPath = function(filepath) {
+    if (process.platform === 'win32') {
+      return filepath.replace(/\\/g, '/');
+    } else {
+      return filepath;
     }
   };
 };
