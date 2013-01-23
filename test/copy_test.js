@@ -21,6 +21,7 @@ exports.copy = {
 
     test.done();
   },
+
   flatten: function(test) {
     'use strict';
 
@@ -32,17 +33,7 @@ exports.copy = {
 
     test.done();
   },
-  minimatch: function(test) {
-    'use strict';
 
-    test.expect(1);
-
-    var actual = fs.readdirSync('tmp/copy_minimatch').sort();
-    var expected = fs.readdirSync('test/expected/copy_minimatch').sort();
-    test.deepEqual(expected, actual, 'should allow for minimatch dot option');
-
-    test.done();
-  },
   single: function(test) {
     'use strict';
 
