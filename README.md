@@ -43,10 +43,7 @@ copy: {
     files: [
       {src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
       {src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
-      
-      // makes all src relative to cwd
-      // to use `cwd`, `expand` is required
-      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
+      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'}, // makes all src relative to cwd - expand is required to use cwd
       {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
     ]
   }
