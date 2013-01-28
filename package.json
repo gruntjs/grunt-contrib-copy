@@ -20,7 +20,7 @@
       "url": "https://github.com/gruntjs/grunt-contrib-copy/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
+  "main": "Gruntfile.js",
   "engines": {
     "node": ">= 0.8.0"
   },
