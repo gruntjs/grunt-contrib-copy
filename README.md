@@ -11,7 +11,7 @@ npm install grunt-contrib-copy --save-dev
 ```
 
 [grunt]: http://gruntjs.com/
-[Getting Started]: https://github.com/gruntjs/grunt/blob/devel/docs/getting_started.md
+[Getting Started]: http://gruntjs.com/getting-started
 
 
 ## Copy task
@@ -67,4 +67,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Jan 23 2013 10:40:27.*
+*This file was generated on Tue Feb 05 2013 10:18:24.*
