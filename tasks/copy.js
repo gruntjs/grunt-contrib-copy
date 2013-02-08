@@ -42,10 +42,10 @@ module.exports = function(grunt) {
         }
 
         if (grunt.file.isDir(src)) {
-          grunt.log.writeln('Creating ' + dest.cyan);
+          grunt.verbose.writeln('Creating ' + dest.cyan);
           grunt.file.mkdir(dest);
         } else {
-          grunt.log.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
           grunt.file.copy(src, dest, copyOptions);
         }
       });
