@@ -1,7 +1,7 @@
 {
   "name": "grunt-contrib-copy",
   "description": "Copy files and folders.",
-  "version": "0.4.0rc7",
+  "version": "0.4.0",
   "homepage": "https://github.com/gruntjs/grunt-contrib-copy",
   "author": {
     "name": "Grunt Team",
@@ -20,7 +20,7 @@
       "url": "https://github.com/gruntjs/grunt-contrib-copy/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
+  "main": "Gruntfile.js",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -31,11 +31,11 @@
     "grunt-lib-contrib": "~0.4.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "0.1.1rc6",
-    "grunt-contrib-nodeunit": "0.1.2rc6",
-    "grunt-contrib-clean": "0.4.0rc6",
-    "grunt-contrib-internal": "~0.1.1",
-    "grunt": "0.4.0rc7"
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-internal": "~0.4.0",
+    "grunt": "~0.4.0"
   },
   "keywords": [
     "gruntplugin"
