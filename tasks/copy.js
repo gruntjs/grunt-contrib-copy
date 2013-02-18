@@ -14,9 +14,8 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
-    var helpers = require('grunt-lib-contrib').init(grunt);
 
-    var options = helpers.options(this, {
+    var options = this.options({
       processContent: false,
       processContentExclude: []
     });
