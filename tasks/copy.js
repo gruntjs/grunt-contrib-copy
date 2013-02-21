@@ -17,12 +17,14 @@ module.exports = function(grunt) {
 
     var options = this.options({
       processContent: false,
-      processContentExclude: []
+      processContentExclude: [],
+      quiet: false
     });
 
     var copyOptions = {
       process: options.processContent,
-      noProcess: options.processContentExclude
+      noProcess: options.processContentExclude,
+      quiet: options.quiet
     };
 
     grunt.verbose.writeflags(options, 'Options');
@@ -41,10 +43,14 @@ module.exports = function(grunt) {
         }
 
         if (grunt.file.isDir(src)) {
-          grunt.log.writeln('Creating ' + dest.cyan);
+          if (options.quiet === false) {
+            grunt.log.writeln('Creating ' + dest.cyan);
+          }
           grunt.file.mkdir(dest);
         } else {
-          grunt.log.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          if (options.quiet === false) {
+            grunt.log.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          }
           grunt.file.copy(src, dest, copyOptions);
         }
       });

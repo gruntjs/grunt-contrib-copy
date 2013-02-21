@@ -54,6 +54,29 @@ copy: {
 }
 ```
 
+#### quiet
+
+Type: `boolean`
+
+This option supresses output to STDOUT. This is set to false by default.
+
+```js
+copy: {
+  main: {
+    options: {
+      quiet: true
+    },
+    files: [
+      {
+        expand: true,
+        cwd: 'src',
+        src: ['**',],
+        dest: 'build/'
+      }
+    ]
+  }
+}
+```
 
 ## Release History
 
