@@ -30,7 +30,7 @@ Task targets, files and options may be specified according to the grunt [Configu
 ### Options
 
 #### processContent
-Type: `Function`
+Type: `Function(content, srcpath)`
 
 This option is passed to `grunt.file.copy` as an advanced way to control the file contents that are copied.
 
@@ -72,4 +72,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Feb 20 2013 12:35:46.*
+*This file was generated on Fri Feb 22 2013 09:26:58.*
