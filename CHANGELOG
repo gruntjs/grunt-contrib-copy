@@ -1,6 +1,16 @@
 v0.4.0:
-  data: 2012-12-xx
+  date: 2013-02-15
   changes:
+    - First official release for Grunt 0.4.0.
+v0.4.0rc7:
+  date: 2013-01-23
+  changes:
+    - Updating grunt/gruntplugin dependencies to rc7.
+    - Changing in-development grunt/gruntplugin dependency versions from tilde version ranges to specific versions.
+v0.4.0rc5:
+  date: 2013-01-14
+  changes:
+    - Updating to work with grunt v0.4.0rc5.
     - Conversion to grunt v0.4 conventions.
     - Replace basePath with cwd.
     - Empty directory support.

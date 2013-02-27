@@ -1,7 +1,7 @@
 {
   "name": "dp-grunt-contrib-copy",
   "description": "Copy files and folders. Forked from grunt-contrib-copy 0.4.1",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/dancingplatypus/grunt-contrib-copy",
   "author": {
     "name": "Grunt Team",
@@ -20,23 +20,25 @@
       "url": "https://github.com/gruntjs/grunt-contrib-copy/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
+  "main": "Gruntfile.js",
   "engines": {
     "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "grunt test"
   },
-  "dependencies": {
-    "grunt-lib-contrib": "~0.4.0"
-  },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.0",
-    "grunt-contrib-nodeunit": "~0.1.0",
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-internal": "*",
-    "grunt": "~0.4.0",
-    "grunt-cli": "~0.1.1"
+    "grunt-contrib-internal": "~0.4.2",
+    "grunt": "~0.4.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "dependencies" : {
+    "async": "~0.2.5"
   },
   "keywords": [
     "gruntplugin"
