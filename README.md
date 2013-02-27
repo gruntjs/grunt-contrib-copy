@@ -39,6 +39,20 @@ Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
 
+#### onlyIf
+Type: `String` | `Function` Default 'always'
+
+Controls whether or not the file will be copied.
+
+If `onlyIf` is a function, is should have the signature: `fn(srcPath, destPath, srcStat, destStat)`
+and it should return `true` if the file is to be copied, `false` otherwise.
+
+If `onlyIf` is a string, then it must be one of:
+* **always** -- the source will always be copied to the destination
+* **newer** -- the source will only be copied if it is newer than the destination
+* **modified** -- the source will be copied only if its timestamp is different than that of the destination
+* **missing** -- the source will only be copied if there is no destination file
+
 ### Usage Examples
 
 ```js
