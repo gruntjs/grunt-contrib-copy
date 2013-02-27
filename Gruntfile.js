@@ -6,6 +6,10 @@
  * Licensed under the MIT license.
  */
 
+function myOnlyIf(src, dest, statSrc, statDest) {
+    return (src === 'test/fixtures/test.js');
+}
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -56,6 +60,37 @@ module.exports = function(grunt) {
       single: {
         files: [
           {src: ['test/fixtures/test.js'], dest: 'tmp/single.js'}
+        ]
+      },
+
+      copy_if_newer_1: {
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_newer/'}
+        ]
+      },
+
+      copy_if_newer_2: {
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_newer/', onlyIf: 'newer'}
+        ]
+      },
+
+      copy_if_modified_1: {
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_modified/'}
+        ]
+      },
+
+      copy_if_modified_2: {
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_modified/', onlyIf: 'modified'}
+        ]
+      },
+
+
+      onlyIf_function: {
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_onlyIf_function/', onlyIf: myOnlyIf }
         ]
       }
     },

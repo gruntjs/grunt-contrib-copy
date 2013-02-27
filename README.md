@@ -1,6 +1,6 @@
-# grunt-contrib-copy [![Build Status](https://secure.travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](http://travis-ci.org/gruntjs/grunt-contrib-copy)
+# dp-grunt-contrib-copy [![Build Status](https://secure.travis-ci.org/gruntjs/dp-grunt-contrib-copy.png?branch=master)](http://travis-ci.org/gruntjs/dp-grunt-contrib-copy)
 
-> Copy files and folders.
+> Copy files and folders. Forked from grunt-contrib-copy 0.4.1
 
 
 
@@ -10,13 +10,13 @@ This plugin requires Grunt `~0.4.0`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-contrib-copy --save-dev
+npm install dp-grunt-contrib-copy --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-contrib-copy');
+grunt.loadNpmTasks('dp-grunt-contrib-copy');
 ```
 
 *This plugin was designed to work with Grunt 0.4.x. If you're still using grunt v0.3.x it's strongly recommended that [you upgrade](http://gruntjs.com/upgrading-from-0.3-to-0.4), but in case you can't please use [v0.3.2](https://github.com/gruntjs/grunt-contrib-copy/tree/grunt-0.3-stable).*
@@ -38,6 +38,20 @@ This option is passed to `grunt.file.copy` as an advanced way to control the fil
 Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
+
+#### onlyIf
+Type: `String` | `Function` Default 'always'
+
+Controls whether or not the file will be copied.
+
+If `onlyIf` is a function, is should have the signature: `fn(srcPath, destPath, srcStat, destStat)`
+and it should return `true` if the file is to be copied, `false` otherwise.
+
+If `onlyIf` is a string, then it must be one of:
+* **always** -- the source will always be copied to the destination
+* **newer** -- the source will only be copied if it is newer than the destination
+* **modified** -- the source will be copied only if its timestamp is different than that of the destination
+* **missing** -- the source will only be copied if there is no destination file
 
 ### Usage Examples
 
@@ -72,4 +86,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Fri Feb 22 2013 09:26:58.*
+*This file was generated on Wed Feb 27 2013 17:43:34.*
