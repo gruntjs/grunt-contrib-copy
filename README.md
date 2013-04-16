@@ -45,8 +45,8 @@ This option is passed to `grunt.file.copy` as an advanced way to control which f
 copy: {
   main: {
     files: [
-      {src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
-      {src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
+      {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
+      {expand: true, src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
       {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'}, // makes all src relative to cwd
       {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
     ]
@@ -74,4 +74,4 @@ copy: {
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Mar 27 2013 09:00:21.*
+*This file was generated on Tue Apr 16 2013 12:22:46.*
