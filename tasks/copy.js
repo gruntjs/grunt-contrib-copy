@@ -68,7 +68,7 @@ module.exports = function(grunt) {
   });
 
   var detectDestType = function(dest) {
-    if (grunt.util._.endsWith(dest, path.sep)) {
+    if (grunt.util._.endsWith(dest, '/')) {
       return 'directory';
     } else {
       return 'file';
