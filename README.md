@@ -39,6 +39,11 @@ Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
 
+#### hardLink
+Type: `Boolean`
+
+This option will hard link files instead of copying them.  If `processContent` applies to a file then the file will still be copied. On Windows this option will not apply.
+
 ### Usage Examples
 
 ```js
