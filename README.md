@@ -54,6 +54,137 @@ copy: {
 }
 ```
 
+This plugin follows Grunt's files mapping format. You may write the configs to pass filepaths to Grunt in the definitions that Grunt supports, read [Globbing patterns][patterns] and [Building the files object dynamically][format] for details.
+
+[patterns]: http://gruntjs.com/configuring-tasks#globbing-patterns
+[format]: http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically
+
+Here are some quick demos, given the file tree like:
+
+```
+➤➤ tree -I node_modules
+.
+├── Gruntfile.js
+└── src
+    ├── a
+    └── subdir
+        └── b
+
+2 directories, 3 files
+```
+
+* copy a single file tree
+
+```js
+copy: {
+  main: {
+    files: [
+      {
+        src: 'src/*',
+        dest: 'dest/'
+      }
+    ]
+  }
+}
+```
+```
+➤➤ grunt copy
+Running "copy:main" (copy) task
+Created 1 directories, copied 1 files
+
+Done, without errors.
+➤➤ tree -I node_modules
+.
+├── Gruntfile.js
+├── dest
+│   └── src
+│       ├── a
+│       └── subdir
+└── src
+    ├── a
+    └── subdir
+        └── b
+
+5 directories, 4 files
+```
+
+Since in each example there's only one instance in `files`,
+the code could be much shorter to be writtern like this:
+
+```js
+copy: {
+  main: {
+    src: 'src/*',
+    dest: 'dest/'
+  }
+}
+```
+* copy files in a directory
+
+```js
+copy: {
+  main: {
+    expand: true,
+    cwd: 'src/',
+    src: '**',
+    dest: 'dest/'
+  }
+}
+```
+```
+➤➤ grunt copy
+Running "copy:main" (copy) task
+Created 2 directories, copied 2 files
+
+Done, without errors.
+➤➤ tree -I node_modules
+.
+├── Gruntfile.js
+├── dest
+│   ├── a
+│   └── subdir
+│       └── b
+└── src
+    ├── a
+    └── subdir
+        └── b
+
+4 directories, 5 files
+```
+
+* flatten files
+
+```js
+copy: {
+  main: {
+    expand: true,
+    cwd: 'src/',
+    src: '**',
+    dest: 'dest/',
+    flatten: true,
+    filter: 'isFile'
+  }
+}
+```
+```
+➤➤ grunt copy
+Running "copy:main" (copy) task
+Copied 2 files
+
+Done, without errors.
+➤➤ tree -I node_modules
+.
+├── Gruntfile.js
+├── dest
+│   ├── a
+│   └── b
+└── src
+    ├── a
+    └── subdir
+        └── b
+
+3 directories, 5 files
+```
 
 ## Release History
 
