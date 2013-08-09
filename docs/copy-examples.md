@@ -13,7 +13,7 @@ copy: {
 }
 ```
 
-This task supports all the file mapping format Grunt supports. Please read [Globbing patterns][http://gruntjs.com/configuring-tasks#globbing-patterns] and [Building the files object dynamically][http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically] for additional details.
+This task supports all the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
 
 Here are some examples, given the following file tree:
 ```shell
