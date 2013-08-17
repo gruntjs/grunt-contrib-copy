@@ -16,11 +16,13 @@ module.exports = function(grunt) {
     var kindOf = grunt.util.kindOf;
 
     var options = this.options({
+      encoding: grunt.file.defaultEncoding,
       processContent: false,
       processContentExclude: []
     });
-
+    
     var copyOptions = {
+      encoding: options.encoding,
       process: options.processContent,
       noProcess: options.processContentExclude
     };
