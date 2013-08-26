@@ -11,6 +11,7 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path');
+  var fs = require('fs');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -29,6 +30,7 @@ module.exports = function(grunt) {
 
     var dest;
     var isExpandedPair;
+    var stats;
     var tally = {
       dirs: 0,
       files: 0
@@ -49,8 +51,10 @@ module.exports = function(grunt) {
           grunt.file.mkdir(dest);
           tally.dirs++;
         } else {
+          stats = fs.lstatSync(src);
           grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
           grunt.file.copy(src, dest, copyOptions);
+          fs.chmodSync(dest, stats.mode);
           tally.files++;
         }
       });
