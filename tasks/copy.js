@@ -30,7 +30,6 @@ module.exports = function(grunt) {
 
     var dest;
     var isExpandedPair;
-    var stats;
     var tally = {
       dirs: 0,
       files: 0
@@ -51,10 +50,11 @@ module.exports = function(grunt) {
           grunt.file.mkdir(dest);
           tally.dirs++;
         } else {
-          stats = fs.lstatSync(src);
           grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
           grunt.file.copy(src, dest, copyOptions);
-          fs.chmodSync(dest, stats.mode);
+          if (filePair.orig.copyMode) {
+            fs.chmodSync(dest, fs.lstatSync(src).mode);
+          }
           tally.files++;
         }
       });
