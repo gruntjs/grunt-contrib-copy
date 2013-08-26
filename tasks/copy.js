@@ -17,14 +17,15 @@ module.exports = function(grunt) {
 
     var options = this.options({
       encoding: grunt.file.defaultEncoding,
+      // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
-      processContentExclude: []
+      processContentExclude: [],
     });
 
     var copyOptions = {
       encoding: options.encoding,
-      process: options.processContent,
-      noProcess: options.processContentExclude
+      process: options.process || options.processContent,
+      noProcess: options.noProcess || options.processContentExclude,
     };
 
     grunt.verbose.writeflags(options, 'Options');
