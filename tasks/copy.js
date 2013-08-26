@@ -17,7 +17,8 @@ module.exports = function(grunt) {
 
     var options = this.options({
       processContent: false,
-      processContentExclude: []
+      processContentExclude: [],
+      forceOverwrite: false
     });
 
     var copyOptions = {
@@ -50,6 +51,9 @@ module.exports = function(grunt) {
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          if (options.forceOverwrite && grunt.file.exists(dest)) {
+              grunt.file.delete(dest, {force: true});
+          }
           grunt.file.copy(src, dest, copyOptions);
           tally.files++;
         }
