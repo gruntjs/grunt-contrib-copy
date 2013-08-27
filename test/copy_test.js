@@ -44,5 +44,15 @@ exports.copy = {
     test.equal(expected, actual, 'should allow for single file copy');
 
     test.done();
+  },
+
+  mode: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    test.equal(fs.lstatSync('tmp/mode.js').mode, 33261);
+
+    test.done();
   }
 };

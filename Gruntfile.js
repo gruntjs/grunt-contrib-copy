@@ -63,7 +63,15 @@ module.exports = function(grunt) {
         files: [
           {expand: true, src: ['test/fixtures/**'], dest: 'tmp/copy_test_verbose/'}
         ]
-      }
+      },
+
+      mode: {
+        options: {
+          mode: true
+        },
+        src: ['test/fixtures/test2.js'],
+        dest: 'tmp/mode.js',
+      },
     },
 
     // Unit tests.
