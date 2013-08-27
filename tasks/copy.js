@@ -18,7 +18,8 @@ module.exports = function(grunt) {
 
     var options = this.options({
       processContent: false,
-      processContentExclude: []
+      processContentExclude: [],
+      mode: false
     });
 
     var copyOptions = {
@@ -52,8 +53,8 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
           grunt.file.copy(src, dest, copyOptions);
-          if (filePair.orig.copyMode) {
-            fs.chmodSync(dest, fs.lstatSync(src).mode);
+          if (options.mode !== false) {
+            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
           tally.files++;
         }
