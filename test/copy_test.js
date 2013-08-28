@@ -51,7 +51,7 @@ exports.copy = {
 
     test.expect(1);
 
-    test.equal(fs.lstatSync('tmp/mode.js').mode, 33261);
+    test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
   }
