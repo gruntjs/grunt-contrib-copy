@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 
       mode: {
         options: {
-          mode: true
+          mode: '0444',
         },
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
