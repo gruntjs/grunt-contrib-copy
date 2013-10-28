@@ -157,6 +157,30 @@ Copied 1 files
 Done, without errors.
 ```
 
+
+**Copy and modify a file:**
+
+To change the contents of a file as it is copied, set an `options.processContent` function as follows:
+
+```js
+copy: {
+  main: {
+    src: 'src/a',
+    dest: 'src/a.bak',
+    options: {
+      processContent: function (content, srcpath) {
+        return content.replace(/[sad ]/g,"_");
+      }
+    }
+  },
+},
+```
+
+Here all occurences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
+
+To process all files in a directory, the `processContent` function is used in exactly the same way.
+
+
 ### Troubleshooting
 
 By default, if a file or directory is not found it is quietly ignored. If the file should exist, and non-existence generate an error, then add `nonull:true`. For instance, this Gruntfile.js entry:
