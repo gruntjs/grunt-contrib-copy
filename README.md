@@ -1,4 +1,4 @@
-# grunt-contrib-copy [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.4.1 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders.
 
@@ -29,15 +29,25 @@ _Run this task with the `grunt copy` command._
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
 ### Options
 
-#### processContent
+#### process
 Type: `Function(content, srcpath)`
 
 This option is passed to `grunt.file.copy` as an advanced way to control the file contents that are copied.
 
-#### processContentExclude
+*`processContent` has been renamed to `process` and the option name will be removed in the future.*
+
+#### noProcess
 Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
+
+*`processContentExclude` has been renamed to `noProcess` and the option name will be removed in the future.*
+
+#### encoding
+Type: `String`
+Default: `grunt.file.defaultEncoding`
+
+The file encoding to copy files with.
 
 ### Usage Examples
 
@@ -45,10 +55,17 @@ This option is passed to `grunt.file.copy` as an advanced way to control which f
 copy: {
   main: {
     files: [
-      {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
-      {expand: true, src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
-      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'}, // makes all src relative to cwd
-      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
+      // includes files within path
+      {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'},
+
+      // includes files within path and its sub-directories
+      {expand: true, src: ['path/**'], dest: 'dest/'},
+
+      // makes all src relative to cwd
+      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
+
+      // flattens results to a single level
+      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'}
     ]
   }
 }
@@ -56,7 +73,7 @@ copy: {
 
 This task supports all the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
 
-Here are some examples, given the following file tree:
+Here are some additional examples, given the following file tree:
 ```shell
 $ tree -I node_modules
 .
@@ -154,4 +171,4 @@ $ tree -I node_modules
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Tue Aug 06 2013 09:47:20.*
+*This file was generated on Sun Oct 27 2013 22:22:39.*

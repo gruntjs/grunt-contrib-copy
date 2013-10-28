@@ -4,10 +4,17 @@
 copy: {
   main: {
     files: [
-      {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'}, // includes files in path
-      {expand: true, src: ['path/**'], dest: 'dest/'}, // includes files in path and its subdirs
-      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'}, // makes all src relative to cwd
-      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
+      // includes files within path
+      {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'},
+
+      // includes files within path and its sub-directories
+      {expand: true, src: ['path/**'], dest: 'dest/'},
+
+      // makes all src relative to cwd
+      {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
+
+      // flattens results to a single level
+      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'}
     ]
   }
 }
@@ -15,7 +22,7 @@ copy: {
 
 This task supports all the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
 
-Here are some examples, given the following file tree:
+Here are some additional examples, given the following file tree:
 ```shell
 $ tree -I node_modules
 .
