@@ -19,3 +19,8 @@ Type: `String`
 Default: `grunt.file.defaultEncoding`
 
 The file encoding to copy files with.
+
+## checkMtime
+Type: `Boolean`
+
+If true check for last modification time of destination files, and if no changes (modification time are equal) don't do copy.
