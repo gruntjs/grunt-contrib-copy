@@ -13,6 +13,10 @@ module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
 
+  function mtime(path) {
+    return fs.statSync(path).mtime.getTime();
+  }
+
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
 
@@ -21,13 +25,14 @@ module.exports = function(grunt) {
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
+      checkMtime: false,
       mode: false
     });
 
     var copyOptions = {
       encoding: options.encoding,
       process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
+      noProcess: options.noProcess || options.processContentExclude
     };
 
     grunt.verbose.writeflags(options, 'Options');
@@ -36,7 +41,8 @@ module.exports = function(grunt) {
     var isExpandedPair;
     var tally = {
       dirs: 0,
-      files: 0
+      files: 0,
+      skipped: 0
     };
 
     this.files.forEach(function(filePair) {
@@ -54,12 +60,22 @@ module.exports = function(grunt) {
           grunt.file.mkdir(dest);
           tally.dirs++;
         } else {
-          grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
-          grunt.file.copy(src, dest, copyOptions);
-          if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+          var copyFile = true;
+          if (options.checkMtime) {
+            copyFile = !fs.existsSync(dest) || mtime(src) > mtime(dest);
           }
-          tally.files++;
+
+          if (copyFile) {
+            grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+            grunt.file.copy(src, dest, copyOptions);
+            if (options.mode !== false) {
+              fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+            }
+            tally.files++;
+          } else {
+            grunt.verbose.writeln('Skip copying ' + src.cyan + ' -> ' + dest.cyan);
+            tally.skipped++;
+          }
         }
       });
     });
@@ -70,6 +86,10 @@ module.exports = function(grunt) {
 
     if (tally.files) {
       grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + tally.files.toString().cyan + ' files');
+    }
+
+    if (tally.skipped) {
+      grunt.log.write((tally.dirs || tally.files ? ', skipped ' : 'Skipped ') + tally.skipped.toString().cyan + ' files');
     }
 
     grunt.log.writeln();

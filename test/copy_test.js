@@ -54,5 +54,17 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
+  },
+
+  mtime: function(test) {
+    'use strict';
+
+    test.expect(2);
+
+    // test for one.js actually copied
+    test.equal(fs.lstatSync('tmp/copy_test_flatten/one.js').mode.toString(8).slice(-3), '444', 'one.js should be copied');
+    test.notEqual(fs.lstatSync('tmp/copy_test_files/test.js').mode.toString(8).slice(-3), '444', 'test.js should by skipped');
+
+    test.done();
   }
 };
