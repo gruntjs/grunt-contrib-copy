@@ -84,10 +84,7 @@ module.exports = function(grunt) {
   };
 
   var unixifyPath = function(filepath) {
-    if (process.platform === 'win32') {
-      return filepath.replace(/\\/g, '/');
-    } else {
-      return filepath;
-    }
+    // works for both windows and linux
+    return path.resolve(filepath);
   };
 };
