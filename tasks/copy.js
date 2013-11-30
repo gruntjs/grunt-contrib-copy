@@ -30,8 +30,6 @@ module.exports = function(grunt) {
       noProcess: options.noProcess || options.processContentExclude,
     };
 
-    grunt.verbose.writeflags(options, 'Options');
-
     var dest;
     var isExpandedPair;
     var tally = {
