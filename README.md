@@ -39,6 +39,11 @@ Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
 
+#### rename
+Type: `Function(dest, src)`
+
+This option is used to change the destination programmatically by using a rename function.
+
 ### Usage Examples
 
 ```js
