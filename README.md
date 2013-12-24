@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.4.1 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.5.0 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders.
 
@@ -29,15 +29,31 @@ _Run this task with the `grunt copy` command._
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
 ### Options
 
-#### processContent
+#### process
 Type: `Function(content, srcpath)`
 
 This option is passed to `grunt.file.copy` as an advanced way to control the file contents that are copied.
 
-#### processContentExclude
+*`processContent` has been renamed to `process` and the option name will be removed in the future.*
+
+#### noProcess
 Type: `String`
 
 This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
+
+*`processContentExclude` has been renamed to `noProcess` and the option name will be removed in the future.*
+
+#### encoding
+Type: `String`  
+Default: `grunt.file.defaultEncoding`
+
+The file encoding to copy files with.
+
+#### mode
+Type: `Boolean` or `Number`  
+Default: `false`
+
+Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
 ### Usage Examples
 
@@ -143,8 +159,60 @@ $ tree -I node_modules
 ```
 
 
+**Copy and modify a file:**
+
+To change the contents of a file as it is copied, set an `options.process` function as follows:
+
+```js
+copy: {
+  main: {
+    src: 'src/a',
+    dest: 'src/a.bak',
+    options: {
+      process: function (content, srcpath) {
+        return content.replace(/[sad ]/g,"_");
+      }
+    }
+  },
+},
+```
+
+Here all occurences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
+
+To process all files in a directory, the `process` function is used in exactly the same way.
+
+NOTE: If `process` is not working, be aware it was called `processContent` in v0.4.1 and earlier.
+
+
+##### Troubleshooting
+
+By default, if a file or directory is not found it is quietly ignored. If the file should exist, and non-existence generate an error, then add `nonull:true`. For instance, this Gruntfile.js entry:
+
+```js
+copy: {
+  main: {
+    nonull: true,
+    src: 'not-there',
+    dest: 'create-me',
+  },
+},
+```
+
+gives this output:
+
+```shell
+$ grunt copy
+Running "copy:main" (copy) task
+Warning: Unable to read "not-there" file (Error code: ENOENT). Use --force to continue.
+
+Aborted due to warnings.
+```
+
+
+
 ## Release History
 
+ * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
  * 2013-02-15   v0.4.0   First official release for Grunt 0.4.0.
  * 2013-01-23   v0.4.0rc7   Updating grunt/gruntplugin dependencies to rc7. Changing in-development grunt/gruntplugin dependency versions from tilde version ranges to specific versions.
@@ -161,4 +229,4 @@ $ tree -I node_modules
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Sun Oct 27 2013 22:22:39.*
+*This file was generated on Mon Dec 23 2013 20:21:57.*

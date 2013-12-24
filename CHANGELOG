@@ -1,3 +1,9 @@
+v0.5.0:
+  date: 2013-12-23
+  changes:
+    - If an encoding is specified, overwrite grunt.file.defaultEncoding.
+    - Rename processContent/processContentExclude to process/noProcess to match Grunt API.
+    - mode option to copy existing or set file permissions.
 v0.4.1:
   date: 2013-03-26
   changes:
