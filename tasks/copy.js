@@ -67,7 +67,7 @@ module.exports = function(grunt) {
     }
 
     if (tally.files) {
-      grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + tally.files.toString().cyan + ' files');
+      grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + tally.files.toString().cyan + (tally.files === 1 ? ' file' : ' files'));
     }
 
     grunt.log.writeln();
