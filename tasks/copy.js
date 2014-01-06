@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
   var path = require('path');
   var fs = require('fs');
+  var chalk = require('chalk');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -48,11 +49,11 @@ module.exports = function(grunt) {
         }
 
         if (grunt.file.isDir(src)) {
-          grunt.verbose.writeln('Creating ' + dest.cyan);
+          grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
           tally.dirs++;
         } else {
-          grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
+          grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
           if (options.mode !== false) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
@@ -63,11 +64,11 @@ module.exports = function(grunt) {
     });
 
     if (tally.dirs) {
-      grunt.log.write('Created ' + tally.dirs.toString().cyan + ' directories');
+      grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
     }
 
     if (tally.files) {
-      grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + tally.files.toString().cyan + (tally.files === 1 ? ' file' : ' files'));
+      grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + chalk.cyan(tally.files.toString()) + (tally.files === 1 ? ' file' : ' files'));
     }
 
     grunt.log.writeln();
