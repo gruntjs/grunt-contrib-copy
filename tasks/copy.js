@@ -21,6 +21,7 @@ module.exports = function(grunt) {
       encoding: grunt.file.defaultEncoding,
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
+      ignoreEmptyFolders: false,
       processContentExclude: [],
       mode: false
     });
@@ -48,11 +49,13 @@ module.exports = function(grunt) {
           dest = filePair.dest;
         }
 
-        if (grunt.file.isDir(src)) {
-          grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
-          grunt.file.mkdir(dest);
-          tally.dirs++;
-        } else {
+          if (grunt.file.isDir(src)) {
+            if (! options.ignoreEmptyFolders || fs.readdirSync(src).length > 0) {
+              grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
+              grunt.file.mkdir(dest);
+              tally.dirs++;
+            }
+          } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
           if (options.mode !== false) {
