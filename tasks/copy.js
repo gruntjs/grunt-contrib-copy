@@ -22,13 +22,14 @@ module.exports = function(grunt) {
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
-      mode: false
+      mode: false,
+      Custdest: false
     });
 
     var copyOptions = {
       encoding: options.encoding,
       process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
+      noProcess: options.noProcess || options.processContentExclude
     };
 
     var dest;
@@ -42,10 +43,18 @@ module.exports = function(grunt) {
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
-        if (detectDestType(filePair.dest) === 'directory') {
-          dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
+        if ('function' === typeof options.Custdest) {
+            dest = options.Custdest(src);
+        }
+
+        if (false === dest) {
+          if (detectDestType(filePair.dest) === 'directory') {
+            dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
+          } else {
+            dest = filePair.dest;
+          }
         } else {
-          dest = filePair.dest;
+          dest = unixifyPath(path.join(dest, src));
         }
 
         if (grunt.file.isDir(src)) {
