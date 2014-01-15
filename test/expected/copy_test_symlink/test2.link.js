@@ -1,0 +1,1 @@
+/home/lmnet/Projects/grunt-contrib-copy/test/fixtures/test2.js

@@ -72,6 +72,15 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
       },
+
+      symlink: {
+        options: {
+          copySymlinkAsSymlink: true,
+        },
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.js'], dest: 'tmp/copy_test_symlink'}
+        ]
+      },
     },
 
     // Unit tests.

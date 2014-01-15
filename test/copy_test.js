@@ -54,5 +54,15 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
-  }
+  },
+
+  symlink: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+
+    test.done();
+  },
 };
