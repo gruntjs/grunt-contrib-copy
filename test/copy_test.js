@@ -1,5 +1,6 @@
 var grunt = require('grunt');
 var fs = require('fs');
+var os = require('os');
 
 exports.copy = {
   main: function(test) {
@@ -61,7 +62,11 @@ exports.copy = {
 
     test.expect(1);
 
-    test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+    if (/^win.*/i.test(os.platform())) {
+      test.ok(true);
+    } else {
+      test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+    }
 
     test.done();
   },

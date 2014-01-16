@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
   var path = require('path');
   var fs = require('fs');
+  var os = require('os');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -56,13 +57,13 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + src.cyan + ' -> ' + dest.cyan);
           srcStat = fs.lstatSync(src);
-          if(options.copySymlinkAsSymlink && srcStat.isSymbolicLink()){
+          if (options.copySymlinkAsSymlink && /^win.*/i.test(os.platform()) && srcStat.isSymbolicLink()) {
             grunt.file.mkdir(path.dirname(dest));
-            if(grunt.file.exists(dest)){
+            if (grunt.file.exists(dest)) {
               grunt.file.delete(dest);
             }
             fs.symlinkSync(fs.readlinkSync(src), dest);
-          }else{
+          } else {
             grunt.file.copy(src, dest, copyOptions);
           }
           if (options.mode !== false) {
