@@ -34,7 +34,6 @@ $ tree -I node_modules
         └── b
 
 2 directories, 4 files
-
 ```
 
 **Copy a single file tree:**

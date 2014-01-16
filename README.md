@@ -55,7 +55,7 @@ Default: `false`
 
 Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
-###### copySymlinkAsSymlink
+#### copySymlinkAsSymlink
 Type: `Boolean`  
 Default: `false`
 
@@ -98,7 +98,6 @@ $ tree -I node_modules
         └── b
 
 2 directories, 4 files
-
 ```
 
 **Copy a single file tree:**
@@ -285,4 +284,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Thu Jan 16 2014 09:59:26.*
+*This file was generated on Thu Jan 16 2014 10:03:06.*
