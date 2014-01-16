@@ -29,10 +29,12 @@ $ tree -I node_modules
 ├── Gruntfile.js
 └── src
     ├── a
+    ├── a.link -> a
     └── subdir
         └── b
 
-2 directories, 3 files
+2 directories, 4 files
+
 ```
 
 **Copy a single file tree:**
@@ -48,22 +50,24 @@ copy: {
 ```shell
 $ grunt copy
 Running "copy:main" (copy) task
-Created 1 directories, copied 1 files
+Created 1 directories, copied 2 files
 
 Done, without errors.
 $ tree -I node_modules
 .
-├── Gruntfile.js
 ├── dest
 │   └── src
 │       ├── a
+│       ├── a.link
 │       └── subdir
+├── Gruntfile.js
 └── src
     ├── a
+    ├── a.link -> a
     └── subdir
         └── b
 
-5 directories, 4 files
+5 directories, 6 files
 ```
 
 **Flattening the filepath output:**
@@ -84,21 +88,23 @@ copy: {
 ```shell
 $ grunt copy
 Running "copy:main" (copy) task
-Copied 2 files
+Copied 3 files
 
 Done, without errors.
 $ tree -I node_modules
 .
-├── Gruntfile.js
 ├── dest
 │   ├── a
+│   ├── a.link
 │   └── b
+├── Gruntfile.js
 └── src
     ├── a
+    ├── a.link -> a
     └── subdir
         └── b
 
-3 directories, 5 files
+3 directories, 7 files
 ```
 
 
@@ -125,6 +131,49 @@ Here all occurences of the letters "s", "a" and "d", as well as all spaces, will
 To process all files in a directory, the `process` function is used in exactly the same way.
 
 NOTE: If `process` is not working, be aware it was called `processContent` in v0.4.1 and earlier.
+
+
+
+**Symlinks:**
+
+By default, the task copies each `src` symlink to `dest` as a regular file with contents equal to that of target of the `src` symlink. The option `copySymlinkAsSymlink` can change this behaviour. If set to `true`, symlinks will be copied as symlinks.
+
+```js
+copy: {
+  main: {
+    options: {
+      copySymlinkAsSymlink: true
+    },
+    expand: true,
+    cwd: 'src/',
+    src: '**',
+    dest: 'dest/',
+  },
+},
+```
+
+```shell
+$ grunt copy
+Running "copy:main" (copy) task
+Created 2 directories, copied 3 files
+
+Done, without errors.
+$ tree -I node_modules
+.
+├── dest
+│   ├── a
+│   ├── a.link -> a
+│   └── subdir
+│       └── b
+├── Gruntfile.js
+└── src
+    ├── a
+    ├── a.link -> a
+    └── subdir
+        └── b
+
+4 directories, 7 files
+```
 
 
 ### Troubleshooting

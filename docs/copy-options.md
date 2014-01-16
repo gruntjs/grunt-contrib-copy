@@ -25,3 +25,11 @@ Type: `Boolean` or `Number`
 Default: `false`
 
 Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
+
+#### copySymlinkAsSymlink
+Type: `Boolean`  
+Default: `false`
+
+If set to true, symlinks will be copied as symlinks, not regular files. Target in a `dest` symlink is copied from `src` symlink 'as is', i.e. absolute links remain absolute and relative links remain relative.
+
+If set to false, `dest` file will contain data from the `src` symlink's target.
