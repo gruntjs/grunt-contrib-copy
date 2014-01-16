@@ -33,3 +33,5 @@ Default: `false`
 If set to true, symlinks will be copied as symlinks, not regular files. Target in a `dest` symlink is copied from `src` symlink 'as is', i.e. absolute links remain absolute and relative links remain relative.
 
 If set to false, `dest` file will contain data from the `src` symlink's target.
+
+Under Windows, the option has no effect, i.e. is always `false`.
