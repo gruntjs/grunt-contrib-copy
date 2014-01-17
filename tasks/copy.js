@@ -36,6 +36,8 @@ module.exports = function(grunt) {
     var dest;
     var isExpandedPair;
     var srcStat;
+    var fileMode;
+    var chmodDeferred = {};
     var tally = {
       dirs: 0,
       files: 0
@@ -68,12 +70,25 @@ module.exports = function(grunt) {
             grunt.file.copy(src, dest, copyOptions);
           }
           if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? srcStat.mode : options.mode);
+            fileMode = (options.mode === true) ? srcStat.mode : options.mode;
+            try {
+              fs.chmodSync(dest, fileMode);
+            } catch(e) {
+              if (e.code === 'ENOENT') {
+                chmodDeferred[dest] = fileMode;
+              }            
+            }
           }
           tally.files++;
         }
       });
     });
+
+    if (chmodDeferred !== {}) {
+      for (var file in chmodDeferred) {
+        fs.chmodSync(file, chmodDeferred[file]);
+      }
+    }
 
     if (tally.dirs) {
       grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
