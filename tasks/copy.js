@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     var isExpandedPair;
     var srcStat;
     var fileMode;
-    var chmodDeferred = {};
+    var isLink;
     var tally = {
       dirs: 0,
       files: 0
@@ -53,6 +53,7 @@ module.exports = function(grunt) {
           dest = filePair.dest;
         }
 
+        isLink = false;
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
@@ -60,7 +61,8 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           srcStat = fs.lstatSync(src);
-          if (options.copySymlinkAsSymlink && !(/^win.*/i.test(os.platform())) && srcStat.isSymbolicLink()) {
+          isLink = srcStat.isSymbolicLink();
+          if (options.copySymlinkAsSymlink && !(/^win.*/i.test(os.platform())) && isLink) {
             grunt.file.mkdir(path.dirname(dest));
             if (grunt.file.exists(dest)) {
               grunt.file.delete(dest);
@@ -69,26 +71,13 @@ module.exports = function(grunt) {
           } else {
             grunt.file.copy(src, dest, copyOptions);
           }
-          if (options.mode !== false) {
-            fileMode = (options.mode === true) ? srcStat.mode : options.mode;
-            try {
-              fs.chmodSync(dest, fileMode);
-            } catch(e) {
-              if (e.code === 'ENOENT') {
-                chmodDeferred[dest] = fileMode;
-              }            
-            }
+          if (options.mode !== false && !isLink) {
+            fs.chmodSync(dest, (options.mode === true) ? srcStat.mode : options.mode);
           }
           tally.files++;
         }
       });
     });
-
-    if (chmodDeferred !== {}) {
-      for (var file in chmodDeferred) {
-        fs.chmodSync(file, chmodDeferred[file]);
-      }
-    }
 
     if (tally.dirs) {
       grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
