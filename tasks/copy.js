@@ -71,7 +71,7 @@ module.exports = function(grunt) {
           } else {
             grunt.file.copy(src, dest, copyOptions);
           }
-          if (options.mode !== false && !isLink) {
+          if (options.mode !== false && !(options.copySymlinkAsSymlink && isLink)) {
             fs.chmodSync(dest, (options.mode === true) ? srcStat.mode : options.mode);
           }
           tally.files++;
