@@ -13,7 +13,6 @@ module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
   var chalk = require('chalk');
-  var os = require('os');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
     var kindOf = grunt.util.kindOf;
@@ -62,7 +61,7 @@ module.exports = function(grunt) {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           srcStat = fs.lstatSync(src);
           isLink = srcStat.isSymbolicLink();
-          if (options.copySymlinkAsSymlink && !(/^win.*/i.test(os.platform())) && isLink) {
+          if (options.copySymlinkAsSymlink && process.platform !== 'win32' && isLink) {
             grunt.file.mkdir(path.dirname(dest));
             if (grunt.file.exists(dest)) {
               grunt.file.delete(dest);
