@@ -78,7 +78,9 @@ exports.copy = {
     if (process.platform === 'win32') {
       test.ok(true);
     } else {
-      test.ok(fs.lstatSync('tmp/copy_test_dirlink/link').isSymbolicLink());
+      var actual = fs.readdirSync('tmp/copy_test_dirlink').sort();
+      var expected = fs.readdirSync('test/expected/copy_test_dirlink').sort();
+      test.deepEqual(expected, actual, 'should copy mix of directories, files and symlinks');
     }
 
     test.done();
