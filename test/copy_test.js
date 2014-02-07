@@ -69,4 +69,18 @@ exports.copy = {
 
     test.done();
   },
+
+  dirlink: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    if (process.platform === 'win32') {
+      test.ok(true);
+    } else {
+      test.ok(fs.lstatSync('tmp/copy_test_dirlink/link').isSymbolicLink());
+    }
+
+    test.done();
+  },
 };
