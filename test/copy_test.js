@@ -61,11 +61,7 @@ exports.copy = {
 
     test.expect(1);
 
-    if (process.platform === 'win32') {
-      test.ok(true);
-    } else {
-      test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
-    }
+    test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
 
     test.done();
   },
@@ -75,13 +71,9 @@ exports.copy = {
 
     test.expect(1);
 
-    if (process.platform === 'win32') {
-      test.ok(true);
-    } else {
-      var actual = fs.readdirSync('tmp/copy_test_dirlink').sort();
-      var expected = fs.readdirSync('test/expected/copy_test_dirlink').sort();
-      test.deepEqual(expected, actual, 'should copy mix of directories, files and symlinks');
-    }
+    var actual = fs.readdirSync('tmp/copy_test_dirlink').sort();
+    var expected = fs.readdirSync('test/expected/copy_test_dirlink').sort();
+    test.deepEqual(expected, actual, 'should copy mix of directories, files and symlinks');
 
     test.done();
   },

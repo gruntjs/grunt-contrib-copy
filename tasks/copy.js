@@ -70,7 +70,7 @@ module.exports = function(grunt) {
         isLink = srcStat.isSymbolicLink();
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
-          if (options.copySymlinkAsSymlink && process.platform !== 'win32' && isLink) {
+          if (options.copySymlinkAsSymlink && isLink) {
             fs.symlinkSync(fs.readlinkSync(src), dest);
             copiedDirLinks.push(new RegExp('^' + src.replace(/\/*$/,'/').replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")));
           } else {
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          if (options.copySymlinkAsSymlink && process.platform !== 'win32' && isLink) {
+          if (options.copySymlinkAsSymlink && isLink) {
             grunt.file.mkdir(path.dirname(dest));
             if (grunt.file.exists(dest)) {
               grunt.file.delete(dest);
