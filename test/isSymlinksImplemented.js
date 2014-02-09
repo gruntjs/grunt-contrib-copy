@@ -12,11 +12,11 @@ module.exports = function() {
 
 	//delete tmp files
 	var cleaner = function() {
-		if (fs.existsSync(orig)) {
-			fs.unlinkSync(orig);
-		}
 		if (fs.existsSync(link)) {
 			fs.unlinkSync(link);
+		}
+		if (fs.existsSync(orig)) {
+			fs.unlinkSync(orig);
 		}
 	}
 
