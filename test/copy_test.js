@@ -69,4 +69,20 @@ exports.copy = {
 
     test.done();
   },
+
+  dirlink: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    if (process.platform === 'win32') {
+      test.ok(true);
+    } else {
+      var actual = fs.readdirSync('tmp/copy_test_dirlink').sort();
+      var expected = fs.readdirSync('test/expected/copy_test_dirlink').sort();
+      test.deepEqual(expected, actual, 'should copy mix of directories, files and symlinks');
+    }
+
+    test.done();
+  },
 };

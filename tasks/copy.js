@@ -37,6 +37,7 @@ module.exports = function(grunt) {
     var srcStat;
     var fileMode;
     var isLink;
+    var copiedDirLinks = [];
     var tally = {
       dirs: 0,
       files: 0
@@ -46,21 +47,38 @@ module.exports = function(grunt) {
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
+        var skip = false;
+        if (copiedDirLinks.length) {
+          for (var i in copiedDirLinks) {
+            if (copiedDirLinks[i].test(src)) {
+              skip = true;
+              break;
+            }
+          }
+        }
+        if (skip) {
+          return;
+        }
+
         if (detectDestType(filePair.dest) === 'directory') {
           dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
         } else {
           dest = filePair.dest;
         }
 
-        isLink = false;
+        srcStat = fs.lstatSync(src);
+        isLink = srcStat.isSymbolicLink();
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
-          grunt.file.mkdir(dest);
+          if (options.copySymlinkAsSymlink && process.platform !== 'win32' && isLink) {
+            fs.symlinkSync(fs.readlinkSync(src), dest);
+            copiedDirLinks.push(new RegExp('^' + src.replace(/\/*$/,'/').replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")));
+          } else {
+            grunt.file.mkdir(dest);
+          }
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          srcStat = fs.lstatSync(src);
-          isLink = srcStat.isSymbolicLink();
           if (options.copySymlinkAsSymlink && process.platform !== 'win32' && isLink) {
             grunt.file.mkdir(path.dirname(dest));
             if (grunt.file.exists(dest)) {
