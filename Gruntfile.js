@@ -72,6 +72,59 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
       },
+
+      symlink: {
+        options: {
+          copySymlinkAsSymlink: true,
+        },
+        files: [
+          {expand: true, cwd: 'test/fixtures', src: ['*.js'], dest: 'tmp/copy_test_symlink'}
+        ]
+      },
+
+      dirlink: {
+        options: {
+          copySymlinkAsSymlink: true,
+        },
+        files: [
+          {expand: true, cwd: 'test/fixtures/dirlink', src: ['**/*'], dest: 'tmp/copy_test_dirlink'}
+        ]
+      },
+    },
+
+    //On windows, "git clone" doesn't copy symlinks as real symlinks.
+    //If we want to use symlinks in tests, we need to create this symlinks.
+    symlink: {
+      options: {
+        overwrite: true
+      },
+      tests: {
+        files: [{
+          src: 'test/fixtures/test2.js',
+          dest: 'test/fixtures/test2.link.js',
+        }, {
+          src: 'test/fixtures/dirlink/dir/file-b.js',
+          dest: 'test/fixtures/dirlink/dir/link-b.js',
+        }, {
+          src: 'test/fixtures/dirlink/dir',
+          dest: 'test/fixtures/dirlink/link',
+        }, {
+          src: 'test/expected/copy_test_symlink/test2.js',
+          dest: 'test/expected/copy_test_symlink/test2.link.js',
+        }, {
+          src: 'test/expected/copy_test_mix/dirlink/dir',
+          dest: 'test/expected/copy_test_mix/dirlink/link',
+        }, {
+          src: 'test/expected/copy_test_flatten/file-b.js',
+          dest: 'test/expected/copy_test_flatten/link-b.js',
+        }, {
+          src: 'test/expected/copy_test_dirlink/dir/file-b.js',
+          dest: 'test/expected/copy_test_dirlink/dir/link-b.js',
+        }, {
+          src: 'test/expected/copy_test_dirlink/dir',
+          dest: 'test/expected/copy_test_dirlink/link',
+        }],
+      },
     },
 
     // Unit tests.
@@ -88,10 +141,24 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-internal');
+  grunt.loadNpmTasks('grunt-contrib-symlink');
+
+  grunt.registerTask('create-symlinks', function() {
+    var isSymlinksImplemented = require('./test/isSymlinksImplemented.js')();
+
+    if (isSymlinksImplemented) {
+      //only for OS with symlinks
+      grunt.task.run('symlink');
+    } else {
+      //workaround for OS without symlinks
+      var fs = require('fs');
+      fs.writeFileSync('test/expected/copy_test_flatten/link', '');
+    }
+  });
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'copy', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'create-symlinks', 'copy', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test', 'build-contrib']);

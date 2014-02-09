@@ -22,7 +22,8 @@ module.exports = function(grunt) {
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
-      mode: false
+      mode: false,
+      copySymlinkAsSymlink: false
     });
 
     var copyOptions = {
@@ -33,30 +34,79 @@ module.exports = function(grunt) {
 
     var dest;
     var isExpandedPair;
+    var srcStat;
+    var fileMode;
+    var isLink;
+    var copiedDirLinks = [];
     var tally = {
       dirs: 0,
       files: 0
     };
+    var symlinksNotImplementedCode = 35;
 
     this.files.forEach(function(filePair) {
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
+        var skip = false;
+        if (copiedDirLinks.length) {
+          for (var i in copiedDirLinks) {
+            if (copiedDirLinks[i].test(src)) {
+              skip = true;
+              break;
+            }
+          }
+        }
+        if (skip) {
+          return;
+        }
+
         if (detectDestType(filePair.dest) === 'directory') {
           dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
         } else {
           dest = filePair.dest;
         }
 
+        srcStat = fs.lstatSync(src);
+        isLink = srcStat.isSymbolicLink();
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
-          grunt.file.mkdir(dest);
+          if (options.copySymlinkAsSymlink && isLink) {
+            try {
+              fs.symlinkSync(fs.readlinkSync(src), dest);
+              copiedDirLinks.push(new RegExp('^' + src.replace(/\/*$/,'/').replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")));
+            } catch(e) {
+              if (e.errno === symlinksNotImplementedCode) {
+                grunt.file.mkdir(dest);
+              }else{
+                throw e;
+              }
+            }
+          } else {
+            grunt.file.mkdir(dest);
+          }
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          grunt.file.copy(src, dest, copyOptions);
-          if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+          if (options.copySymlinkAsSymlink && isLink) {
+            try {
+              grunt.file.mkdir(path.dirname(dest));
+              if (grunt.file.exists(dest)) {
+                grunt.file.delete(dest);
+              }
+              fs.symlinkSync(fs.readlinkSync(src), dest);
+            } catch(e) {
+              if (e.errno === symlinksNotImplementedCode) {
+                grunt.file.copy(src, dest, copyOptions);
+              }else{
+                throw e;
+              }
+            }
+          } else {
+            grunt.file.copy(src, dest, copyOptions);
+          }
+          if (options.mode !== false && !(options.copySymlinkAsSymlink && isLink)) {
+            fs.chmodSync(dest, (options.mode === true) ? srcStat.mode : options.mode);
           }
           tally.files++;
         }

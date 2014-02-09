@@ -1,5 +1,6 @@
 var grunt = require('grunt');
 var fs = require('fs');
+var isSymlinksImplemented = require('./isSymlinksImplemented.js')();
 
 exports.copy = {
   main: function(test) {
@@ -54,5 +55,31 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
-  }
+  },
+
+  symlink: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    if (isSymlinksImplemented) {
+      test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+    } else {
+      test.ok(true);
+    }
+
+    test.done();
+  },
+
+  dirlink: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    var actual = fs.readdirSync('tmp/copy_test_dirlink').sort();
+    var expected = fs.readdirSync('test/expected/copy_test_dirlink').sort();
+    test.deepEqual(expected, actual, 'should copy mix of directories, files and symlinks');
+
+    test.done();
+  },
 };

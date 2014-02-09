@@ -1,3 +1,4 @@
 node_modules
 npm-debug.log
 tmp
+test/expected/copy_test_flatten/link
