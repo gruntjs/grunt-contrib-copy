@@ -42,6 +42,7 @@ module.exports = function(grunt) {
       dirs: 0,
       files: 0
     };
+    var symlinksNotImplementedCode = 35;
 
     this.files.forEach(function(filePair) {
       isExpandedPair = filePair.orig.expand || false;
@@ -71,8 +72,16 @@ module.exports = function(grunt) {
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           if (options.copySymlinkAsSymlink && isLink) {
-            fs.symlinkSync(fs.readlinkSync(src), dest);
-            copiedDirLinks.push(new RegExp('^' + src.replace(/\/*$/,'/').replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")));
+            try {
+              fs.symlinkSync(fs.readlinkSync(src), dest);
+              copiedDirLinks.push(new RegExp('^' + src.replace(/\/*$/,'/').replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")));
+            } catch(e) {
+              if (e.errno === symlinksNotImplementedCode) {
+                grunt.file.mkdir(dest);
+              }else{
+                throw e;
+              }
+            }
           } else {
             grunt.file.mkdir(dest);
           }
@@ -80,11 +89,19 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           if (options.copySymlinkAsSymlink && isLink) {
-            grunt.file.mkdir(path.dirname(dest));
-            if (grunt.file.exists(dest)) {
-              grunt.file.delete(dest);
+            try {
+              grunt.file.mkdir(path.dirname(dest));
+              if (grunt.file.exists(dest)) {
+                grunt.file.delete(dest);
+              }
+              fs.symlinkSync(fs.readlinkSync(src), dest);
+            } catch(e) {
+              if (e.errno === symlinksNotImplementedCode) {
+                grunt.file.copy(src, dest, copyOptions);
+              }else{
+                throw e;
+              }
             }
-            fs.symlinkSync(fs.readlinkSync(src), dest);
           } else {
             grunt.file.copy(src, dest, copyOptions);
           }

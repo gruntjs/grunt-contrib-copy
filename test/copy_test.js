@@ -1,5 +1,6 @@
 var grunt = require('grunt');
 var fs = require('fs');
+var isSymlinksImplemented = require('./isSymlinksImplemented.js')();
 
 exports.copy = {
   main: function(test) {

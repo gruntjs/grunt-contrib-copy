@@ -143,9 +143,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-internal');
   grunt.loadNpmTasks('grunt-contrib-symlink');
 
+  grunt.registerTask('create-symlinks', function() {
+    var isSymlinksImplemented = require('./test/isSymlinksImplemented.js')();
+
+    if (isSymlinksImplemented) {
+      //only for OS with symlinks
+      grunt.task.run('symlink');
+    }
+  });
+
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'symlink', 'copy', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'create-symlinks', 'copy', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test', 'build-contrib']);
