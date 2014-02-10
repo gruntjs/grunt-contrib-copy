@@ -149,6 +149,9 @@ module.exports = function(grunt) {
     if (isSymlinksImplemented) {
       //only for OS with symlinks
       grunt.task.run('symlink');
+    } else {
+      //for OS without symlinks we need to create another test data set
+      
     }
   });
 

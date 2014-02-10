@@ -12,7 +12,6 @@ module.exports = function() {
 
 	//delete tmp files
 	var cleaner = function() {
-		console.log(orig, link, fs.existsSync(orig));
 		if (fs.existsSync(orig)) {
 			fs.unlinkSync(orig);
 		}

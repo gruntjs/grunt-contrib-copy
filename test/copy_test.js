@@ -62,7 +62,11 @@ exports.copy = {
 
     test.expect(1);
 
-    test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+    if (isSymlinksImplemented) {
+      test.ok(fs.lstatSync('tmp/copy_test_symlink/test2.link.js').isSymbolicLink());
+    } else {
+      test.ok(true);
+    }
 
     test.done();
   },
