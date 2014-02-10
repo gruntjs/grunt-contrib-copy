@@ -150,8 +150,9 @@ module.exports = function(grunt) {
       //only for OS with symlinks
       grunt.task.run('symlink');
     } else {
-      //for OS without symlinks we need to create another test data set
-      
+      //workaround for OS without symlinks
+      var fs = require('fs');
+      fs.writeFileSync('test/expected/copy_test_flatten/link', '');
     }
   });
 
