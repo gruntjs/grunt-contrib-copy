@@ -54,5 +54,17 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
+  },
+
+  ignoreEmptyDirs: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    var actual = fs.readdirSync('tmp/copy_test_ignore_empty_dirs').sort();
+    var expected = fs.readdirSync('test/expected/copy_test_ignore_empty_dirs').sort();
+    test.deepEqual(expected, actual, 'should create one scripts2 directory since scripts1 is empty');
+
+    test.done();
   }
 };

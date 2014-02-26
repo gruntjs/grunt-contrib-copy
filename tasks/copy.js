@@ -38,17 +38,37 @@ module.exports = function(grunt) {
       files: 0
     };
 
+    var skip = {};
+
+    if (options.ignoreEmptyDirs) {
+      this.files.forEach(function(filePair) { // find all dirs
+        filePair.src.forEach(function(src) {
+          dest = expandDest(filePair, src);
+          if (grunt.file.isDir(src)) {
+            skip[dest] = true;
+          }
+        });
+      });
+
+      this.files.forEach(function(filePair) { // remove dirs with contents
+        filePair.src.forEach(function(src) {
+          dest = expandDest(filePair, src);
+          if (!grunt.file.isDir(src)) {
+            walkPath(path.dirname(dest), function(dir) {
+              skip[dir] = false;
+            });
+          }
+        });
+      });
+    }
+
     this.files.forEach(function(filePair) {
-      isExpandedPair = filePair.orig.expand || false;
-
       filePair.src.forEach(function(src) {
-        if (detectDestType(filePair.dest) === 'directory') {
-          dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
-        } else {
-          dest = filePair.dest;
-        }
+        dest = expandDest(filePair, src);
 
-        if (grunt.file.isDir(src)) {
+        if (skip[dest]) {
+          grunt.verbose.writeln('Skipping ' + chalk.cyan(dest));
+        } else if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
           tally.dirs++;
@@ -74,6 +94,17 @@ module.exports = function(grunt) {
     grunt.log.writeln();
   });
 
+  var expandDest = function(filePair, src) {
+    var dest;
+    var isExpandedPair = filePair.orig.expand || false;
+    if (detectDestType(filePair.dest) === 'directory') {
+      dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
+    } else {
+      dest = filePair.dest;
+    }
+    return dest;
+  };
+
   var detectDestType = function(dest) {
     if (grunt.util._.endsWith(dest, '/')) {
       return 'directory';
@@ -87,6 +118,16 @@ module.exports = function(grunt) {
       return filepath.replace(/\\/g, '/');
     } else {
       return filepath;
+    }
+  };
+
+  var walkPath = function(filepath, fn) {
+    while (filepath) {
+      fn(filepath);
+
+      var next = path.dirname(filepath);
+      if (filepath === next) { break; } // reached root
+      else { filepath = next; }
     }
   };
 };

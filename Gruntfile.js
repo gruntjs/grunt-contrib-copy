@@ -72,6 +72,15 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
       },
+
+      ignoreEmptyDirs: {
+        options: {
+          ignoreEmptyDirs: true
+        },
+        files: [
+          {expand: true, cwd: 'test/fixtures/folder_three', src: ['**', '!**/*.coffee'], dest: 'tmp/copy_test_ignore_empty_dirs/'},
+        ]
+      }
     },
 
     // Unit tests.
