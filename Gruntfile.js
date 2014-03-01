@@ -2,7 +2,7 @@
  * grunt-contrib-copy
  * http://gruntjs.com/
  *
- * Copyright (c) 2013 Chris Talkington, contributors
+ * Copyright (c) 2014 Chris Talkington, contributors
  * Licensed under the MIT license.
  */
 
