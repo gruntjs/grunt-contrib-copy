@@ -34,6 +34,32 @@ exports.copy = {
     test.done();
   },
 
+  symlink: function(test) {
+    'use strict';
+
+    test.expect(4);
+
+    // Check content
+    var actual = grunt.file.read('tmp/copy_test_links/test_link.js');
+    var expected = grunt.file.read('test/expected/copy_test_links/test_link.js');
+    test.equal(expected, actual, 'should allow for single copy symlink');
+
+    // Check symlink type
+    var isLink = grunt.file.isLink('tmp/copy_test_links/test_link.js');
+    test.equal(isLink, true, 'should allow for a hard link copy');
+
+    // Check content
+    var actualDir = fs.readlink('tmp/copy_test_links/empty_folder_link');
+    var expectedDir = fs.readlink('test/expected/copy_test_links/empty_folder_link');
+    test.deepEqual(expectedDir, actualDir, 'should allow for single copy symlink');
+
+    // Check symlink type
+    var isLinkDir = grunt.file.isLink('tmp/copy_test_links/empty_folder_link');
+    test.equal(isLinkDir, true, 'should allow for a hard link copy');
+
+    test.done();
+  },
+
   single: function(test) {
     'use strict';
 
