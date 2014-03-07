@@ -53,6 +53,17 @@ module.exports = function(grunt) {
         ]
       },
 
+      symlink: {
+        options: {
+          hardLink: true
+        },
+        files: [
+          {src: ['test/fixtures/test.js'], dest: 'tmp/copy_test_links/test.js'},
+          {src: ['test/fixtures/test_link.js'], dest: 'tmp/copy_test_links/test_link.js'},
+          {expand: true, cwd: 'test/fixtures', src: ['empty_folder*'], dest: 'tmp/copy_test_links/'},
+        ]
+      },
+
       single: {
         files: [
           {src: ['test/fixtures/test.js'], dest: 'tmp/single.js'}

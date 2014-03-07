@@ -22,7 +22,8 @@ module.exports = function(grunt) {
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
-      mode: false
+      mode: false,
+      hardLink: false
     });
 
     var copyOptions = {
@@ -35,7 +36,8 @@ module.exports = function(grunt) {
     var isExpandedPair;
     var tally = {
       dirs: 0,
-      files: 0
+      files: 0,
+      links: 0
     };
 
     this.files.forEach(function(filePair) {
@@ -48,7 +50,12 @@ module.exports = function(grunt) {
           dest = filePair.dest;
         }
 
-        if (grunt.file.isDir(src)) {
+        if (grunt.file.isLink(src) && options.hardLink === true) {
+          grunt.verbose.writeln('Creating symlink' + chalk.cyan(dest));
+          var target = fs.readlinkSync(String(src));
+          fs.symlinkSync(target, dest);
+          tally.links++;
+        } else if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
           tally.dirs++;
@@ -64,11 +71,15 @@ module.exports = function(grunt) {
     });
 
     if (tally.dirs) {
-      grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
+      grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + (tally.dirs === 1 ? ' directory' : ' directories'));
+    }
+
+    if (tally.links) {
+      grunt.log.write('Copied ' + chalk.cyan(tally.links.toString()) + (tally.links === 1 ? ' symbolic link' : ' symbolic links'));
     }
 
     if (tally.files) {
-      grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + chalk.cyan(tally.files.toString()) + (tally.files === 1 ? ' file' : ' files'));
+      grunt.log.write((tally.dirs || tally.links ? ', copied ' : 'Copied ') + chalk.cyan(tally.files.toString()) + (tally.files === 1 ? ' file' : ' files'));
     }
 
     grunt.log.writeln();

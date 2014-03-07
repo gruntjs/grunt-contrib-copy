@@ -55,6 +55,12 @@ Default: `false`
 
 Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
+#### hardLink
+Type: `Boolean`
+Default: `false`
+
+Hard link files instead of copying
+
 ### Usage Examples
 
 ```js
