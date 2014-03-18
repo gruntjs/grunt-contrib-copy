@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     };
 
     this.files.forEach(function(filePair) {
-      var filterFunction = filePair.filter ? filePair.filter : function(_dest){return _dest};
+      var filterFunction = filePair.filter ? filePair.filter : function(_dest){return _dest;};
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
