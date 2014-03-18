@@ -54,5 +54,17 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
+  },
+  filter_function: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    var actual = fs.readdirSync('tmp/copy_test_flatten').sort();
+    var expected = fs.readdirSync('test/expected/copy_test_flatten').sort();
+    test.deepEqual(expected, actual, 'should create a flat structure');
+
+    test.done();
   }
+
 };
