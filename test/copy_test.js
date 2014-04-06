@@ -13,7 +13,7 @@ exports.copy = {
         return filepath[0] !== '.';
       };
     } else {
-      excludeDotFiles = function () { return true; }
+      excludeDotFiles = function () { return true; };
     }
 
     var actual = fs.readdirSync('tmp/copy_test_files').sort().filter(excludeDotFiles);

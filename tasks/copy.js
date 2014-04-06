@@ -51,7 +51,7 @@ module.exports = function(grunt) {
         if (typeof process === 'function') {
           copyOptions.process = function (content, srcpath) {
             return process(content, srcpath, dest);
-          }
+          };
         }
         
         if (grunt.file.isDir(src)) {
