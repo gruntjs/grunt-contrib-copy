@@ -1,0 +1,1 @@
+srcpath: test/fixtures/test.js, destpath: tmp/copy_test_process/test.js

@@ -54,5 +54,17 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
+  },
+
+  process: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/copy_test_process/test.js');
+    var expected = grunt.file.read('test/expected/process.js');
+    test.equal(expected, actual, 'should allow for single file copy');
+
+    test.done();
   }
 };

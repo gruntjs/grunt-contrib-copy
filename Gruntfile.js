@@ -65,6 +65,16 @@ module.exports = function(grunt) {
         ]
       },
 
+      process: {
+        options: {
+          process: function (content, srcpath, destpath) {
+            return 'srcpath: ' + srcpath + ', destpath: ' + destpath;
+          }
+        },
+        src: ['test/fixtures/test.js'],
+        dest: 'tmp/copy_test_process/test.js'
+      },
+
       mode: {
         options: {
           mode: '0444',
