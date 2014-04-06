@@ -7,9 +7,14 @@ exports.copy = {
 
     test.expect(3);
 
-    var excludeDotFiles = function (filepath) {
-      return filepath[0] !== '.';
-    };
+    var excludeDotFiles;
+    if (process.platform === 'darwin') {
+      excludeDotFiles = function (filepath) {
+        return filepath[0] !== '.';
+      };
+    } else {
+      excludeDotFiles = function () { return true; }
+    }
 
     var actual = fs.readdirSync('tmp/copy_test_files').sort().filter(excludeDotFiles);
     var expected = fs.readdirSync('test/expected/copy_test_files').sort().filter(excludeDotFiles);
