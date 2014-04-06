@@ -169,7 +169,7 @@ copy: {
     src: 'src/a',
     dest: 'src/a.bak',
     options: {
-      process: function (content, srcpath) {
+      process: function (content, srcpath, destpath) {
         return content.replace(/[sad ]/g,"_");
       }
     }
@@ -229,4 +229,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Mon Dec 23 2013 20:21:57.*
+*This file was generated on Sun Apr 06 2014 12:55:33.*

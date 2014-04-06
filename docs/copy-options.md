@@ -1,16 +1,16 @@
 # Options
 
 ## process
-Type: `Function(content, srcpath)`
+Type: `Function(content, srcpath, destpath)`
 
-This option is passed to `grunt.file.copy` as an advanced way to control the file contents that are copied.
+The source file contents, source file path, and destination file path are passed into this function, whose return value will be used as the destination file's contents. If this function returns `false`, the file copy will be aborted.
 
 *`processContent` has been renamed to `process` and the option name will be removed in the future.*
 
 ## noProcess
 Type: `String`
 
-This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
+These optional globbing patterns will be matched against the filepath (not the filename) using grunt.file.isMatch. If any specified globbing pattern matches, the file won't be processed via the `process` function. If `true` is specified, processing will be prevented.
 
 *`processContentExclude` has been renamed to `noProcess` and the option name will be removed in the future.*
 
