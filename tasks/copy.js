@@ -27,12 +27,12 @@ module.exports = function(grunt) {
 
     var copyOptions = {
       encoding: options.encoding,
-      process: options.process || options.processContent,
       noProcess: options.noProcess || options.processContentExclude,
     };
 
     var dest;
     var isExpandedPair;
+    var process = options.process || options.processContent;
     var tally = {
       dirs: 0,
       files: 0
@@ -48,6 +48,12 @@ module.exports = function(grunt) {
           dest = filePair.dest;
         }
 
+        if (typeof process === 'function') {
+          copyOptions.process = function (content, srcpath) {
+            return process(content, srcpath, dest);
+          };
+        }
+        
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);

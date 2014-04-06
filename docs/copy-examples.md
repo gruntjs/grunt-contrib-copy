@@ -112,7 +112,7 @@ copy: {
     src: 'src/a',
     dest: 'src/a.bak',
     options: {
-      process: function (content, srcpath) {
+      process: function (content, srcpath, destpath) {
         return content.replace(/[sad ]/g,"_");
       }
     }

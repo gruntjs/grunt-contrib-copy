@@ -1,3 +1,7 @@
+v0.5.1:
+  date: 2014-04-06
+  changes:
+    - Adding destpath option to process
 v0.5.0:
   date: 2013-12-23
   changes:

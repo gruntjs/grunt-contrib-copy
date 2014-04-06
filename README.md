@@ -30,16 +30,16 @@ Task targets, files and options may be specified according to the grunt [Configu
 ### Options
 
 #### process
-Type: `Function(content, srcpath)`
+Type: `Function(content, srcpath, destpath)`
 
-This option is passed to `grunt.file.copy` as an advanced way to control the file contents that are copied.
+The source file contents, source file path, and destination file path are passed into this function, whose return value will be used as the destination file's contents. If this function returns `false`, the file copy will be aborted.
 
 *`processContent` has been renamed to `process` and the option name will be removed in the future.*
 
 #### noProcess
 Type: `String`
 
-This option is passed to `grunt.file.copy` as an advanced way to control which file contents are processed.
+These optional globbing patterns will be matched against the filepath (not the filename) using grunt.file.isMatch. If any specified globbing pattern matches, the file won't be processed via the `process` function. If `true` is specified, processing will be prevented.
 
 *`processContentExclude` has been renamed to `noProcess` and the option name will be removed in the future.*
 
@@ -169,7 +169,7 @@ copy: {
     src: 'src/a',
     dest: 'src/a.bak',
     options: {
-      process: function (content, srcpath) {
+      process: function (content, srcpath, destpath) {
         return content.replace(/[sad ]/g,"_");
       }
     }
@@ -212,6 +212,7 @@ Aborted due to warnings.
 
 ## Release History
 
+ * 2014-04-06   v0.5.1   Adding destpath option to process
  * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
  * 2013-02-15   v0.4.0   First official release for Grunt 0.4.0.
@@ -229,4 +230,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Mon Dec 23 2013 20:21:57.*
+*This file was generated on Sun Apr 06 2014 12:59:25.*
