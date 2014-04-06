@@ -7,16 +7,20 @@ exports.copy = {
 
     test.expect(3);
 
-    var actual = fs.readdirSync('tmp/copy_test_files').sort();
-    var expected = fs.readdirSync('test/expected/copy_test_files').sort();
+    var excludeDotFiles = function (filepath) {
+      return filepath[0] !== '.';
+    };
+
+    var actual = fs.readdirSync('tmp/copy_test_files').sort().filter(excludeDotFiles);
+    var expected = fs.readdirSync('test/expected/copy_test_files').sort().filter(excludeDotFiles);
     test.deepEqual(expected, actual, 'should copy several files');
 
-    actual = fs.readdirSync('tmp/copy_test_mix').sort();
-    expected = fs.readdirSync('test/expected/copy_test_mix').sort();
+    actual = fs.readdirSync('tmp/copy_test_mix').sort().filter(excludeDotFiles);
+    expected = fs.readdirSync('test/expected/copy_test_mix').sort().filter(excludeDotFiles);
     test.deepEqual(expected, actual, 'should copy a mix of folders and files');
 
-    actual = fs.readdirSync('tmp/copy_test_v0.1.0').sort();
-    expected = fs.readdirSync('test/expected/copy_test_v0.1.0').sort();
+    actual = fs.readdirSync('tmp/copy_test_v0.1.0').sort().filter(excludeDotFiles);
+    expected = fs.readdirSync('test/expected/copy_test_v0.1.0').sort().filter(excludeDotFiles);
     test.deepEqual(expected, actual, 'should parse both dest and src templates');
 
     test.done();
