@@ -212,6 +212,7 @@ Aborted due to warnings.
 
 ## Release History
 
+ * 2014-04-06   v0.5.1   Adding destpath option to process
  * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
  * 2013-02-15   v0.4.0   First official release for Grunt 0.4.0.
@@ -229,4 +230,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Sun Apr 06 2014 12:55:33.*
+*This file was generated on Sun Apr 06 2014 12:59:25.*
