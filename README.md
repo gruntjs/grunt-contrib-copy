@@ -183,6 +183,7 @@ To process all files in a directory, the `process` function is used in exactly t
 
 NOTE: If `process` is not working, be aware it was called `processContent` in v0.4.1 and earlier.
 
+NOTE: If you plan to use the `cwd` option you need to set `expand: true` as well. For more info prease referer to the Grunt docs, http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically.
 
 ##### Troubleshooting
 
