@@ -72,6 +72,16 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
       },
+      filter_function: {
+         src: [ 'test/fixtures/test.js'], 
+         dest: 'tmp/copy_filter_function/', 
+         filter: function( old_dest ){
+           var prefix_dest = old_dest.substring( 0, old_dest.indexOf('copy_filter_function') + 'copy_filter_function'.length );
+           var postfix_dest = old_dest.substring( old_dest.indexOf( 'test.js' ) );
+           var new_dest = prefix_dest+'/inserted/'+postfix_dest;
+           return new_dest;
+         }
+      }
     },
 
     // Unit tests.

@@ -44,6 +44,7 @@ module.exports = function(grunt) {
       filePair.src.forEach(function(src) {
         if (detectDestType(filePair.dest) === 'directory') {
           dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
+          dest = filePair.filter ? filePair.filter( dest ) : dest;
         } else {
           dest = filePair.dest;
         }
