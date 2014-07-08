@@ -40,6 +40,11 @@ module.exports = function(grunt) {
 
     this.files.forEach(function(filePair) {
       isExpandedPair = filePair.orig.expand || false;
+      
+      var cwd = '';
+      if(filePair.cwd) {
+        cwd = filePair.cwd + '/';
+      }
 
       filePair.src.forEach(function(src) {
         if (detectDestType(filePair.dest) === 'directory') {
@@ -48,15 +53,15 @@ module.exports = function(grunt) {
           dest = filePair.dest;
         }
 
-        if (grunt.file.isDir(src)) {
+        if (grunt.file.isDir(cwd + src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          grunt.file.copy(src, dest, copyOptions);
+          grunt.file.copy(cwd + src, dest, copyOptions);
           if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(cwd + src).mode : options.mode);
           }
           tally.files++;
         }
