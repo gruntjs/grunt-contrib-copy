@@ -12,6 +12,7 @@ module.exports = function(grunt) {
   // Make an empty dir for testing as git doesn't track empty folders.
   grunt.file.mkdir('test/fixtures/empty_folder');
   grunt.file.mkdir('test/expected/copy_test_mix/empty_folder');
+  grunt.file.mkdir('test/expected/copy_test_cwd_without_expand/empty_folder');
 
   // Project configuration.
   grunt.initConfig({
@@ -63,6 +64,12 @@ module.exports = function(grunt) {
         files: [
           {expand: true, src: ['test/fixtures/**'], dest: 'tmp/copy_test_verbose/'}
         ]
+      },
+      
+      cwd_without_expand: {
+        cwd:  "test/fixtures",
+        src:  "**",
+        dest: "tmp/copy_test_cwd_without_expand/"
       },
 
       mode: {
