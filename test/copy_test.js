@@ -54,5 +54,14 @@ exports.copy = {
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
 
     test.done();
+  },
+  process: function(test) {
+    'use strict';
+
+    test.expect(2);
+    test.equal(fs.lstatSync('tmp/process/beep.wav').size, fs.lstatSync('test/fixtures/beep.wav').size);
+    test.notEqual(fs.lstatSync('tmp/process/test2.js').size, fs.lstatSync('test/fixtures/test2.js').size);
+
+    test.done();
   }
 };

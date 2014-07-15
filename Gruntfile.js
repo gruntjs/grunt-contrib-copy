@@ -41,15 +41,15 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'test/fixtures', src: ['*.*'], dest: 'tmp/copy_test_files/'},
-          {expand: true, cwd: 'test/fixtures', src: ['**'], dest: 'tmp/copy_test_mix/'},
+          {expand: true, cwd: 'test/fixtures', src: ['*.js'], dest: 'tmp/copy_test_files/'},
+          {expand: true, cwd: 'test/fixtures', src: ['**', '!*.wav'], dest: 'tmp/copy_test_mix/'},
           {expand: true, cwd: 'test/fixtures', src: ['<%= test_vars.match %>'], dest: 'tmp/copy_test_v<%= test_vars.version %>/'}
         ]
       },
 
       flatten: {
         files: [
-          {expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**'], dest: 'tmp/copy_test_flatten/'}
+          {expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**', '!**/*.wav'], dest: 'tmp/copy_test_flatten/'}
         ]
       },
 
@@ -72,6 +72,15 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js',
       },
+      process: {
+        options: {
+          noProcess: ['test/fixtures/beep.wav'],
+          process: function (content, srcpath) {
+            return content + '/* comment */';
+          }
+        },
+        files: [{ expand: true, cwd: 'test/fixtures', src: ['test2.js', 'beep.wav'], dest: 'tmp/process/' }]
+      }
     },
 
     // Unit tests.
