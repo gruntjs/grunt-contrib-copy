@@ -31,7 +31,6 @@ module.exports = function(grunt) {
       noProcess: options.noProcess || options.processContentExclude,
     };
 
-    var dest;
     var isExpandedPair;
     var tally = {
       dirs: 0,
@@ -42,10 +41,11 @@ module.exports = function(grunt) {
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
-        if (detectDestType(filePair.dest) === 'directory') {
-          dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
-        } else {
-          dest = filePair.dest;
+        var src = unixifyPath(src);
+        var dest = unixifyPath(filePair.dest);
+
+        if (detectDestType(dest) === 'directory') {
+          dest = (isExpandedPair) ? dest : path.join(dest, src);
         }
 
         if (grunt.file.isDir(src)) {
