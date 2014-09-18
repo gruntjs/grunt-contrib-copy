@@ -33,6 +33,7 @@ module.exports = function(grunt) {
 
     var dest;
     var isExpandedPair;
+    var dirs = {};
     var tally = {
       dirs: 0,
       files: 0
@@ -51,16 +52,29 @@ module.exports = function(grunt) {
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
+
+          dirs[dest] = {
+            src: src,
+            dest: dest
+          };
+
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
+          syncTimestamp(src, dest);
           if (options.mode !== false) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
           tally.files++;
         }
       });
+    });
+
+    Object.keys(dirs).sort(function (a, b) {
+      return b.length - a.length;
+    }).forEach(function (dest) {
+      syncTimestamp(dirs[dest].src, dest);
     });
 
     if (tally.dirs) {
@@ -88,5 +102,14 @@ module.exports = function(grunt) {
     } else {
       return filepath;
     }
+  };
+
+  var syncTimestamp = function (src, dest) {
+    var stat = fs.lstatSync(src);
+    if (path.basename(src) !== path.basename(dest)) {
+      return;
+    }
+
+    fs.utimesSync(dest, stat.atime, stat.mtime);
   };
 };
