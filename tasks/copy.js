@@ -13,9 +13,9 @@ module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
   var chalk = require('chalk');
+  var crypto = require('crypto');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
-    var kindOf = grunt.util.kindOf;
 
     var options = this.options({
       encoding: grunt.file.defaultEncoding,
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     var copyOptions = {
       encoding: options.encoding,
       process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
+      noProcess: options.noProcess || options.processContentExclude
     };
 
     var dest;
@@ -104,9 +104,20 @@ module.exports = function(grunt) {
     }
   };
 
+  var md5 = function (src) {
+    var md5Hash = crypto.createHash('md5');
+    md5Hash.update(fs.readFileSync(src));
+
+    return md5Hash.digest('hex');
+  };
+
   var syncTimestamp = function (src, dest) {
     var stat = fs.lstatSync(src);
     if (path.basename(src) !== path.basename(dest)) {
+      return;
+    }
+
+    if (stat.isFile() && md5(src) !== md5(dest)) {
       return;
     }
 
