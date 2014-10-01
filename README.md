@@ -97,7 +97,7 @@ $ tree -I node_modules
 copy: {
   main: {
     src: 'src/*',
-    dest: 'dest/',
+    dest: 'dest/'
   },
 },
 ```
@@ -133,7 +133,7 @@ copy: {
     src: '**',
     dest: 'dest/',
     flatten: true,
-    filter: 'isFile',
+    filter: 'isFile'
   },
 },
 ```
@@ -193,7 +193,7 @@ copy: {
   main: {
     nonull: true,
     src: 'not-there',
-    dest: 'create-me',
+    dest: 'create-me'
   },
 },
 ```
