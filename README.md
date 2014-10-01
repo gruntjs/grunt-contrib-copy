@@ -134,7 +134,7 @@ copy: {
     dest: 'dest/',
     flatten: true,
     filter: 'isFile'
-  },
+  }
 },
 ```
 
@@ -173,7 +173,7 @@ copy: {
         return content.replace(/[sad ]/g,"_");
       }
     }
-  },
+  }
 },
 ```
 
@@ -194,7 +194,7 @@ copy: {
     nonull: true,
     src: 'not-there',
     dest: 'create-me'
-  },
+  }
 },
 ```
 
