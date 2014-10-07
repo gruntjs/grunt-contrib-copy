@@ -15,8 +15,6 @@ module.exports = function(grunt) {
   var chalk = require('chalk');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
-    var kindOf = grunt.util.kindOf;
-
     var options = this.options({
       encoding: grunt.file.defaultEncoding,
       // processContent/processContentExclude deprecated renamed to process/noProcess
