@@ -1,3 +1,7 @@
+v0.7.0:
+  date: 2014-10-15
+  changes:
+    - Add timestamp option to disable preseving timestamp when copying.
 v0.6.0:
   date: 2014-09-17
   changes:

@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.6.0 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.7.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders.
 
@@ -55,6 +55,12 @@ Default: `false`
 
 Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
+#### timestamp
+Type: `Boolean`
+Default: `false`
+
+Whether to preserve the timestamp attributes(`atime` and `mtime`) when copying files. Set to `true` to preserve files timestamp. But timestamp will *not* be preserved when the file contents or name are changed during copying.
+
 ### Usage Examples
 
 ```js
@@ -71,10 +77,10 @@ copy: {
       {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
 
       // flattens results to a single level
-      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'}
-    ]
-  }
-}
+      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'},
+    ],
+  },
+},
 ```
 
 This task supports all the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
@@ -97,7 +103,7 @@ $ tree -I node_modules
 copy: {
   main: {
     src: 'src/*',
-    dest: 'dest/'
+    dest: 'dest/',
   },
 },
 ```
@@ -133,8 +139,8 @@ copy: {
     src: '**',
     dest: 'dest/',
     flatten: true,
-    filter: 'isFile'
-  }
+    filter: 'isFile',
+  },
 },
 ```
 
@@ -171,9 +177,9 @@ copy: {
     options: {
       process: function (content, srcpath) {
         return content.replace(/[sad ]/g,"_");
-      }
-    }
-  }
+      },
+    },
+  },
 },
 ```
 
@@ -193,8 +199,8 @@ copy: {
   main: {
     nonull: true,
     src: 'not-there',
-    dest: 'create-me'
-  }
+    dest: 'create-me',
+  },
 },
 ```
 
@@ -212,6 +218,7 @@ Aborted due to warnings.
 
 ## Release History
 
+ * 2014-10-15   v0.7.0   Add timestamp option to disable preseving timestamp when copying.
  * 2014-09-17   v0.6.0   Update chalk dependency and other devDependencies. Preserve file timestamp when copying.
  * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
@@ -230,4 +237,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Sep 17 2014 21:29:16.*
+*This file was generated on Wed Oct 15 2014 09:29:35.*
