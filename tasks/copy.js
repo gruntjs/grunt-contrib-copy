@@ -22,6 +22,7 @@ module.exports = function(grunt) {
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
+      timestamp: false,
       mode: false
     });
 
@@ -53,10 +54,9 @@ module.exports = function(grunt) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
 
-          dirs[dest] = {
-            src: src,
-            dest: dest
-          };
+          if (options.timestamp) {
+            dirs[dest] = src;
+          }
 
           tally.dirs++;
         } else {
@@ -71,11 +71,13 @@ module.exports = function(grunt) {
       });
     });
 
-    Object.keys(dirs).sort(function (a, b) {
-      return b.length - a.length;
-    }).forEach(function (dest) {
-      syncTimestamp(dirs[dest].src, dest);
-    });
+    if (options.timestamp) {
+      Object.keys(dirs).sort(function (a, b) {
+        return b.length - a.length;
+      }).forEach(function (dest) {
+        syncTimestamp(dirs[dest], dest);
+      });
+    }
 
     if (tally.dirs) {
       grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');

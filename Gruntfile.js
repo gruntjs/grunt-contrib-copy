@@ -67,10 +67,10 @@ module.exports = function(grunt) {
 
       mode: {
         options: {
-          mode: '0444',
+          mode: '0444'
         },
         src: ['test/fixtures/test2.js'],
-        dest: 'tmp/mode.js',
+        dest: 'tmp/mode.js'
       },
       process: {
         options: {
@@ -89,7 +89,8 @@ module.exports = function(grunt) {
                 } else {
                     return content;
                 }
-            }
+            },
+            timestamp: true
         },
         files: [
             {expand: true, cwd: 'test/fixtures/time_folder/', src: ['**'], dest: 'tmp/copy_test_timestamp/'},
