@@ -13,20 +13,23 @@ module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
   var chalk = require('chalk');
+  var crypto = require('crypto');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
+
     var options = this.options({
       encoding: grunt.file.defaultEncoding,
       // processContent/processContentExclude deprecated renamed to process/noProcess
       processContent: false,
       processContentExclude: [],
+      timestamp: false,
       mode: false
     });
 
     var copyOptions = {
       encoding: options.encoding,
       process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
+      noProcess: options.noProcess || options.processContentExclude
     };
 
     var dest;
@@ -51,10 +54,9 @@ module.exports = function(grunt) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
 
-          dirs[dest] = {
-            src: src,
-            dest: dest
-          };
+          if (options.timestamp) {
+            dirs[dest] = src;
+          }
 
           tally.dirs++;
         } else {
@@ -69,11 +71,13 @@ module.exports = function(grunt) {
       });
     });
 
-    Object.keys(dirs).sort(function (a, b) {
-      return b.length - a.length;
-    }).forEach(function (dest) {
-      syncTimestamp(dirs[dest].src, dest);
-    });
+    if (options.timestamp) {
+      Object.keys(dirs).sort(function (a, b) {
+        return b.length - a.length;
+      }).forEach(function (dest) {
+        syncTimestamp(dirs[dest], dest);
+      });
+    }
 
     if (tally.dirs) {
       grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
@@ -102,9 +106,20 @@ module.exports = function(grunt) {
     }
   };
 
+  var md5 = function (src) {
+    var md5Hash = crypto.createHash('md5');
+    md5Hash.update(fs.readFileSync(src));
+
+    return md5Hash.digest('hex');
+  };
+
   var syncTimestamp = function (src, dest) {
     var stat = fs.lstatSync(src);
     if (path.basename(src) !== path.basename(dest)) {
+      return;
+    }
+
+    if (stat.isFile() && md5(src) !== md5(dest)) {
       return;
     }
 

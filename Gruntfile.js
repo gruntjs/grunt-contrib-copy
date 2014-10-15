@@ -67,10 +67,10 @@ module.exports = function(grunt) {
 
       mode: {
         options: {
-          mode: '0444',
+          mode: '0444'
         },
         src: ['test/fixtures/test2.js'],
-        dest: 'tmp/mode.js',
+        dest: 'tmp/mode.js'
       },
       process: {
         options: {
@@ -82,6 +82,16 @@ module.exports = function(grunt) {
         files: [{ expand: true, cwd: 'test/fixtures', src: ['test2.js', 'beep.wav'], dest: 'tmp/process/' }]
       },
       timestamp: {
+        options: {
+            process: function (content, srcpath) {
+                if (srcpath === 'test/fixtures/time_folder/test_process.js') {
+                    return 'with process and file contents were changed';
+                } else {
+                    return content;
+                }
+            },
+            timestamp: true
+        },
         files: [
             {expand: true, cwd: 'test/fixtures/time_folder/', src: ['**'], dest: 'tmp/copy_test_timestamp/'},
             {src: 'test/fixtures/time_folder/test.js', dest:'tmp/copy_test_timestamp/test1.js'}
