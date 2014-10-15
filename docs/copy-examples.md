@@ -14,10 +14,10 @@ copy: {
       {expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
 
       // flattens results to a single level
-      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'}
-    ]
-  }
-}
+      {expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'},
+    ],
+  },
+},
 ```
 
 This task supports all the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
@@ -114,8 +114,8 @@ copy: {
     options: {
       process: function (content, srcpath) {
         return content.replace(/[sad ]/g,"_");
-      }
-    }
+      },
+    },
   },
 },
 ```
