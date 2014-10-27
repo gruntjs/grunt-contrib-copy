@@ -80,7 +80,7 @@ module.exports = function(grunt) {
     }
 
     if (tally.dirs) {
-      grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + ' directories');
+      grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + (tally.dirs === 1 ? ' directory' : ' directories'));
     }
 
     if (tally.files) {
