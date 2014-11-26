@@ -21,10 +21,12 @@ Default: `grunt.file.defaultEncoding`
 The file encoding to copy files with.
 
 ## mode
-Type: `Boolean` or `Number`  
+Type: `Boolean` or `String`  
 Default: `false`
 
-Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
+Whether to copy or set the destination file and directory permissions.
+Set to `true` to copy the existing file and directories permissions.
+Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
 ## timestamp
 Type: `Boolean`  
