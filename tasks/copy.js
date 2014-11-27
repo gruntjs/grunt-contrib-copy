@@ -109,11 +109,18 @@ module.exports = function(grunt) {
     }
   };
 
-  var md5 = function (src) {
-    var md5Hash = crypto.createHash('md5');
-    md5Hash.update(fs.readFileSync(src));
-
-    return md5Hash.digest('hex');
+  var equalFiles = function(pathA, pathB) {
+    var bufA = fs.readFileSync(pathA);
+    var bufB = fs.readFileSync(pathB);
+    if (bufA.length !== bufB.length) {
+      return false;
+    }
+    for (var i = 0; i < bufA.length; i++) {
+      if (bufA[i] !== bufB[i]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   var syncTimestamp = function (src, dest) {
@@ -122,7 +129,7 @@ module.exports = function(grunt) {
       return;
     }
 
-    if (stat.isFile() && md5(src) !== md5(dest)) {
+    if (stat.isFile() && !equalFiles(src, dest)) {
       return;
     }
 
