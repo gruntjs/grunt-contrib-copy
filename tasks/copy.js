@@ -14,6 +14,7 @@ module.exports = function(grunt) {
   var fs = require('fs');
   var chalk = require('chalk');
   var crypto = require('crypto');
+  var fileSyncCmp = require('file-sync-cmp');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
 
@@ -109,27 +110,13 @@ module.exports = function(grunt) {
     }
   };
 
-  var equalFiles = function(pathA, pathB) {
-    var bufA = fs.readFileSync(pathA);
-    var bufB = fs.readFileSync(pathB);
-    if (bufA.length !== bufB.length) {
-      return false;
-    }
-    for (var i = 0; i < bufA.length; i++) {
-      if (bufA[i] !== bufB[i]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   var syncTimestamp = function (src, dest) {
     var stat = fs.lstatSync(src);
     if (path.basename(src) !== path.basename(dest)) {
       return;
     }
 
-    if (stat.isFile() && !equalFiles(src, dest)) {
+    if (stat.isFile() && !fileSyncCmp.equalFiles(src, dest)) {
       return;
     }
 
