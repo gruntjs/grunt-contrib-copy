@@ -43,11 +43,13 @@ module.exports = function(grunt) {
     this.files.forEach(function(filePair) {
       isExpandedPair = filePair.orig.expand || false;
 
+      var toLowerCase = filePair.toLowercase || false;
+
       filePair.src.forEach(function(src) {
         if (detectDestType(filePair.dest) === 'directory') {
           dest = (isExpandedPair) ? filePair.dest : unixifyPath(path.join(filePair.dest, src));
         } else {
-          dest = filePair.dest;
+          dest = toLowerCase ? filePair.dest.toLowerCase() : filePair.dest;
         }
 
         if (grunt.file.isDir(src)) {
