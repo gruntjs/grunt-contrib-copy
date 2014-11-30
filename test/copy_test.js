@@ -55,6 +55,15 @@ exports.copy = {
 
     test.done();
   },
+
+  modeDir: function(test) {
+    'use strict';
+    test.expect(2);
+    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), '777');
+    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), '777');
+    test.done();
+  },
+
   process: function(test) {
     'use strict';
 

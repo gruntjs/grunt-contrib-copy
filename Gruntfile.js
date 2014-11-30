@@ -72,6 +72,20 @@ module.exports = function(grunt) {
         src: ['test/fixtures/test2.js'],
         dest: 'tmp/mode.js'
       },
+
+      modeDir: {
+        options: {
+          mode: '0777'
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'test/fixtures/',
+            src: ['time_folder/**'],
+            dest: 'tmp/copy_test_modeDir/'}
+        ]
+      },
+
       process: {
         options: {
           noProcess: ['test/fixtures/beep.wav'],
@@ -81,6 +95,7 @@ module.exports = function(grunt) {
         },
         files: [{ expand: true, cwd: 'test/fixtures', src: ['test2.js', 'beep.wav'], dest: 'tmp/process/' }]
       },
+
       timestamp: {
         options: {
             process: function (content, srcpath) {

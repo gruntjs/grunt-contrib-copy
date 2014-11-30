@@ -53,6 +53,9 @@ module.exports = function(grunt) {
         if (grunt.file.isDir(src)) {
           grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
           grunt.file.mkdir(dest);
+          if (options.mode !== false) {
+            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+          }
 
           if (options.timestamp) {
             dirs[dest] = src;

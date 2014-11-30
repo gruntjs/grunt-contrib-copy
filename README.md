@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.7.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.7.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders.
 
@@ -50,13 +50,15 @@ Default: `grunt.file.defaultEncoding`
 The file encoding to copy files with.
 
 #### mode
-Type: `Boolean` or `Number`  
+Type: `Boolean` or `String`  
 Default: `false`
 
-Whether to copy or set the existing file permissions. Set to `true` to copy the existing file permissions. Or set to the mode, i.e.: `0644`, that copied files will be set to.
+Whether to copy or set the destination file and directory permissions.
+Set to `true` to copy the existing file and directories permissions.
+Or set to the mode, i.e.: `0644`, that copied files will be set to.
 
 #### timestamp
-Type: `Boolean`
+Type: `Boolean`  
 Default: `false`
 
 Whether to preserve the timestamp attributes(`atime` and `mtime`) when copying files. Set to `true` to preserve files timestamp. But timestamp will *not* be preserved when the file contents or name are changed during copying.
@@ -237,4 +239,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Wed Oct 15 2014 09:29:35.*
+*This file was generated on Thu Nov 27 2014 00:17:14.*
