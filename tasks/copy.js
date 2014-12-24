@@ -36,6 +36,7 @@ module.exports = function(grunt) {
     var dest;
     var isExpandedPair;
     var dirs = {};
+    var files = {};
     var tally = {
       dirs: 0,
       files: 0,
@@ -58,9 +59,7 @@ module.exports = function(grunt) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
 
-          if (options.timestamp) {
-            dirs[dest] = src;
-          }
+          dirs[dest] = src;
 
           tally.dirs++;
         } else {
@@ -70,6 +69,9 @@ module.exports = function(grunt) {
           if (options.mode !== false) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
+
+          files[dest] = src;
+
           tally.files++;
         }
       });
@@ -84,10 +86,12 @@ module.exports = function(grunt) {
     }
 
     if (tally.dirs) {
+      grunt.config([this.name, this.target, 'dirs_created'], dirs);
       grunt.log.write('Created ' + chalk.cyan(tally.dirs.toString()) + (tally.dirs === 1 ? ' directory' : ' directories'));
     }
 
     if (tally.files) {
+      grunt.config([this.name, this.target, 'files_copied'], files);
       grunt.log.write((tally.dirs ? ', copied ' : 'Copied ') + chalk.cyan(tally.files.toString()) + (tally.files === 1 ? ' file' : ' files'));
     }
 
