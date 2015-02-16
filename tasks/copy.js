@@ -64,6 +64,17 @@ module.exports = function(grunt) {
 
           tally.dirs++;
         } else {
+          //output warning if file exists
+          var fileExists;
+          try {
+            fileExists = fs.statSync(dest);
+          } catch (e) {
+            grunt.verbose.writeln(' #File ' + dest + ' not exists!');
+          }
+          if (fileExists && fileExists.isFile()) {
+            grunt.log.error(' Warning... file ' + dest + ' already exists! it will be overwritten.');
+          }
+          //
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
           syncTimestamp(src, dest);
