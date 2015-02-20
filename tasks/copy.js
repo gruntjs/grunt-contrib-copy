@@ -41,11 +41,12 @@ module.exports = function(grunt) {
     };
 
     this.files.forEach(function(filePair) {
+      var dest = filePair.dest;
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
-        var src = unixifyPath(src);
-        var dest = unixifyPath(filePair.dest);
+        src = unixifyPath(src);
+        dest = unixifyPath(dest);
 
         if (detectDestType(dest) === 'directory') {
           dest = (isExpandedPair) ? dest : path.join(dest, src);
