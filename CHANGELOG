@@ -1,3 +1,9 @@
+v0.8.0:
+  date: 2015-02-20
+  changes:
+    - Performance improvements.
+    - The `mode` option now also applies to directories.
+    - Fix path issue on Windows.
 v0.7.0:
   date: 2014-10-15
   changes:
