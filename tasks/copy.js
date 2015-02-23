@@ -24,20 +24,14 @@ module.exports = function(grunt) {
       processContent: false,
       processContentExclude: [],
       timestamp: false,
-      mode: false,
+      mode: false
     });
-
-    var copyOptions = {
-      encoding: options.encoding,
-      process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
-    };
 
     var isExpandedPair;
     var dirs = {};
     var tally = {
       dirs: 0,
-      files: 0,
+      files: 0
     };
 
     this.files.forEach(function(filePair) {
@@ -66,6 +60,13 @@ module.exports = function(grunt) {
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
+
+          var filepairOptions = filePair.options || {};
+          var copyOptions = {
+              encoding: filepairOptions.encoding || options.encoding,
+              process: filepairOptions.process || filepairOptions.processContent || options.process || options.processContent,
+              noProcess: filepairOptions.noProcess || filepairOptions.processContentExclude || options.noProcess || options.processContentExclude
+          };
           grunt.file.copy(src, dest, copyOptions);
           syncTimestamp(src, dest);
           if (options.mode !== false) {
