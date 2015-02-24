@@ -96,6 +96,27 @@ module.exports = function(grunt) {
         files: [{ expand: true, cwd: 'test/fixtures', src: ['test2.js', 'beep.wav'], dest: 'tmp/process/' }]
       },
 
+      nestedOptions : {
+        options: {
+          process: function(content, srcpath) {
+              return content + '/* comment */';
+          }
+        },
+        files: [
+          {  src: 'test/fixtures/test2.js', dest: 'tmp/copy_test_nestedOptions/output_one.js' },
+          {
+            options: {
+              process: function(content, srcpath) {
+                return content + '/* a custom comment */';
+              }
+            },
+            src: 'test/fixtures/test2.js',
+            dest: 'tmp/copy_test_nestedOptions/output_two.js'
+          },
+          {  src: 'test/fixtures/test2.js', dest: 'tmp/copy_test_nestedOptions/output_three.js' }
+        ]
+      },
+
       timestamp: {
         options: {
             process: function (content, srcpath) {

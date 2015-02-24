@@ -59,8 +59,10 @@ exports.copy = {
   modeDir: function(test) {
     'use strict';
     test.expect(2);
+
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), '777');
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), '777');
+
     test.done();
   },
 
@@ -73,6 +75,27 @@ exports.copy = {
 
     test.done();
   },
+
+  nestedOptions: function(test) {
+    'use strict';
+
+    test.expect(3);
+
+    var actual = grunt.file.read('tmp/copy_test_nestedOptions/output_one.js');
+    var expected = grunt.file.read('test/expected/copy_test_nestedOptions/output_one.js');
+    test.equal(expected, actual, 'should use the toplevel options for the first file');
+
+    actual = grunt.file.read('tmp/copy_test_nestedOptions/output_two.js');
+    expected = grunt.file.read('test/expected/copy_test_nestedOptions/output_two.js');
+    test.equal(expected, actual, 'should use its own options for the second file');
+
+    actual = grunt.file.read('tmp/copy_test_nestedOptions/output_three.js');
+    expected = grunt.file.read('test/expected/copy_test_nestedOptions/output_three.js');
+    test.equal(expected, actual, 'should use the toplevel options for the third file');
+
+    test.done();
+  },
+
   timestamp: function(test) {
     'use strict';
 
