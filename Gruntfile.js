@@ -47,6 +47,12 @@ module.exports = function(grunt) {
         ]
       },
 
+      noexpandWild: {
+        files: [
+          {src: 'test/fixtures/*.js', dest: 'tmp/copy_test_noexpandWild/'}
+        ]
+      },
+
       flatten: {
         files: [
           {expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**', '!**/*.wav'], dest: 'tmp/copy_test_flatten/'}
