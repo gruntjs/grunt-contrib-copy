@@ -84,5 +84,24 @@ exports.copy = {
     test.notEqual(fs.lstatSync('tmp/copy_test_timestamp/test_process.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test_process.js').mtime.getTime());
 
     test.done();
+  },
+
+  onlynewer: function(test) {
+    'use strict';
+
+    test.expect(4);
+
+    // check if the names are correct.
+    var actual = fs.readdirSync('tmp/copy_test_onlynewer').sort();
+    var expected = fs.readdirSync('test/expected/copy_test_onlynewer').sort();
+    test.deepEqual(expected, actual, 'should copy several files');
+
+    // check if the file sizes correspond.
+    test.equal(fs.lstatSync('tmp/copy_test_onlynewer/onlyonce.txt').size, fs.lstatSync('test/fixtures/onlynewer/initial/onlyonce.txt').size);
+    // since the timestamp of the unchanged.txt didn't changed, don't expect it copied.
+    test.equal(fs.lstatSync('tmp/copy_test_onlynewer/unchanged.txt').size, fs.lstatSync('test/fixtures/onlynewer/initial/unchanged.txt').size);
+    test.equal(fs.lstatSync('tmp/copy_test_onlynewer/updated.txt').size, fs.lstatSync('test/fixtures/onlynewer/updated/updated.txt').size);
+
+    test.done();
   }
 };

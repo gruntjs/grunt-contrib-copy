@@ -26,6 +26,41 @@ module.exports = function(grunt) {
       }
     },
 
+    touch : {
+      original : {
+        options: {
+          nocreate: true,
+          time: new Date('2035-12-01')
+        },
+        files : [
+          // fixtures updates
+          { src : 'test/fixtures/onlynewer/initial/onlyonce.txt' },
+          { src : 'test/fixtures/onlynewer/initial/unchanged.txt' },
+          { src : 'test/fixtures/onlynewer/initial/updated.txt' },
+          { src : 'test/fixtures/onlynewer/updated/unchanged.txt' },
+          { src : 'test/fixtures/onlynewer/updated/updated.txt' },
+
+          // expected results updates
+          { src : 'test/expected/copy_test_onlynewer/onlyonce.txt' },
+          { src : 'test/expected/copy_test_onlynewer/unchanged.txt' },
+          { src : 'test/expected/copy_test_onlynewer/updated.txt' }
+        ]
+      },
+      changed : {
+        options: {
+          nocreate: true,
+          mtime: new Date('2035-12-31')
+        },
+        files : [
+          // fixtures timestamps
+          { src : 'test/fixtures/onlynewer/updated/updated.txt' },
+
+          // expected results updates
+          { src : 'test/expected/copy_test_onlynewer/updated.txt' }
+        ]
+      }
+    },
+
     // Before generating any new files, remove any previously-created files.
     clean: {
       test: ['tmp']
@@ -111,6 +146,17 @@ module.exports = function(grunt) {
             {expand: true, cwd: 'test/fixtures/time_folder/', src: ['**'], dest: 'tmp/copy_test_timestamp/'},
             {src: 'test/fixtures/time_folder/test.js', dest:'tmp/copy_test_timestamp/test1.js'}
         ]
+      },
+
+      onlynewer: {
+        options: {
+          timestamp: true,
+          onlyNewer: true
+        },
+        files: [
+          { expand: true, cwd: 'test/fixtures/onlynewer/initial', src: ['**'], dest: 'tmp/copy_test_onlynewer' },
+          { expand: true, cwd: 'test/fixtures/onlynewer/updated', src: ['**'], dest: 'tmp/copy_test_onlynewer' }
+        ]
       }
     },
 
@@ -128,10 +174,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-internal');
+  grunt.loadNpmTasks('grunt-touch');
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['jshint', 'clean', 'copy', 'nodeunit']);
+  grunt.registerTask('test', ['jshint', 'clean', 'touch:original', 'touch:changed', 'copy', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['test', 'build-contrib']);
