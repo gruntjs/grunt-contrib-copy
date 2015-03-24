@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.7.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.8.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders
 
