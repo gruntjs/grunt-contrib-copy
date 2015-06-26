@@ -46,6 +46,22 @@ exports.copy = {
     test.done();
   },
 
+  multiple: function(test) {
+    'use strict';
+
+    test.expect(2);
+
+    var actual = grunt.file.read('tmp/copy_test_multiple/test/fixtures/test.js');
+    var expected = grunt.file.read('test/fixtures/test.js');
+    test.equal(expected, actual);
+
+    actual = grunt.file.read('tmp/copy_test_multiple/test/fixtures/test2.js');
+    expected = grunt.file.read('test/fixtures/test2.js');
+    test.equal(expected, actual);
+
+    test.done();
+  },
+
   mode: function(test) {
     'use strict';
 

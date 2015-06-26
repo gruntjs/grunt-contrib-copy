@@ -41,35 +41,35 @@ module.exports = function(grunt) {
     };
 
     this.files.forEach(function(filePair) {
-      var dest = filePair.dest;
+      var dest = unixifyPath(filePair.dest);
       isExpandedPair = filePair.orig.expand || false;
 
       filePair.src.forEach(function(src) {
         src = unixifyPath(src);
-        dest = unixifyPath(dest);
+        var localDest = dest;
 
-        if (detectDestType(dest) === 'directory') {
-          dest = (isExpandedPair) ? dest : path.join(dest, src);
+        if (detectDestType(localDest) === 'directory') {
+          localDest = (isExpandedPair) ? localDest : path.join(localDest, src);
         }
 
         if (grunt.file.isDir(src)) {
-          grunt.verbose.writeln('Creating ' + chalk.cyan(dest));
-          grunt.file.mkdir(dest);
+          grunt.verbose.writeln('Creating ' + chalk.cyan(localDest));
+          grunt.file.mkdir(localDest);
           if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+            fs.chmodSync(localDest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
 
           if (options.timestamp) {
-            dirs[dest] = src;
+            dirs[localDest] = src;
           }
 
           tally.dirs++;
         } else {
-          grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          grunt.file.copy(src, dest, copyOptions);
-          syncTimestamp(src, dest);
+          grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(localDest));
+          grunt.file.copy(src, localDest, copyOptions);
+          syncTimestamp(src, localDest);
           if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+            fs.chmodSync(localDest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
           tally.files++;
         }
