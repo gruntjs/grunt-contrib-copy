@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     this.files.forEach(function(filePair) {
       var dest = filePair.dest;
       isExpandedPair = filePair.orig.expand || false;
-      if( filePair.getSrc && typeof filePair.getSrc === 'undefined' ) {
+      if( filePair.getSrc && typeof filePair.getSrc === 'function' ) {
         sources = filePair.getSrc();
       }else{
         sources = filePair.src;
