@@ -39,12 +39,18 @@ module.exports = function(grunt) {
       dirs: 0,
       files: 0,
     };
+    var sources;
 
     this.files.forEach(function(filePair) {
       var dest = filePair.dest;
       isExpandedPair = filePair.orig.expand || false;
+      if( filePair.getSrc && typeof filePair.getSrc === 'undefined' ) {
+        sources = filePair.getSrc();
+      }else{
+        sources = filePair.src;
+      }
 
-      filePair.src.forEach(function(src) {
+      sources.forEach(function(src) {
         src = unixifyPath(src);
         dest = unixifyPath(dest);
 
