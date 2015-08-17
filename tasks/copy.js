@@ -24,7 +24,7 @@ module.exports = function(grunt) {
       processContent: false,
       processContentExclude: [],
       timestamp: false,
-      mode: false,
+      mode: this.data.mode || false
     });
 
     var copyOptions = {
