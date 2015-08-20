@@ -15,7 +15,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "^1.1.1",
     "file-sync-cmp": "^0.1.0"
   },
   "devDependencies": {

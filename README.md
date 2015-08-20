@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.8.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
+# grunt-contrib-copy v0.8.1 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy)
 
 > Copy files and folders
 
@@ -220,6 +220,7 @@ Aborted due to warnings.
 
 ## Release History
 
+ * 2015-08-20   v0.8.1   Update `chalk` dependency.
  * 2015-02-20   v0.8.0   Performance improvements. The `mode` option now also applies to directories. Fix path issue on Windows.
  * 2014-10-15   v0.7.0   Add timestamp option to disable preseving timestamp when copying.
  * 2014-09-17   v0.6.0   Update chalk dependency and other devDependencies. Preserve file timestamp when copying.
@@ -240,4 +241,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Fri Feb 20 2015 14:58:19.*
+*This file was generated on Thu Aug 20 2015 17:05:25.*
