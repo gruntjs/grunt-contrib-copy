@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
-          syncTimestamp(src, dest);
+          syncTimestamp(src, dest, options.mtimeUpdate);
           if (options.mode !== false) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
       Object.keys(dirs).sort(function (a, b) {
         return b.length - a.length;
       }).forEach(function (dest) {
-        syncTimestamp(dirs[dest], dest);
+        syncTimestamp(dirs[dest], dest, options.mtimeUpdate);
       });
     }
 
@@ -121,6 +121,8 @@ module.exports = function(grunt) {
       return;
     }
 
-    fs.utimesSync(dest, stat.atime, stat.mtime);
+    var mtime = mtimeUpdate ? new Date() : stat.mtime;
+
+    fs.utimesSync(dest, stat.atime, mtime);
   };
 };
