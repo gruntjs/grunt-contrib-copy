@@ -25,6 +25,7 @@ module.exports = function(grunt) {
       processContentExclude: [],
       timestamp: false,
       mode: false,
+      mtimeUpdate: false
     });
 
     var copyOptions = {
@@ -111,7 +112,7 @@ module.exports = function(grunt) {
     }
   };
 
-  var syncTimestamp = function (src, dest) {
+  var syncTimestamp = function (src, dest, mtimeUpdate) {
     var stat = fs.lstatSync(src);
     if (path.basename(src) !== path.basename(dest)) {
       return;
