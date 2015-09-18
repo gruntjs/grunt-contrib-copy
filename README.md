@@ -222,7 +222,7 @@ Aborted due to warnings.
 
  * 2015-08-20   v0.8.1   Update `chalk` dependency.
  * 2015-02-20   v0.8.0   Performance improvements. The `mode` option now also applies to directories. Fix path issue on Windows.
- * 2014-10-15   v0.7.0   Add timestamp option to disable preseving timestamp when copying.
+ * 2014-10-15   v0.7.0   Add timestamp option to disable preserving timestamp when copying.
  * 2014-09-17   v0.6.0   Update chalk dependency and other devDependencies. Preserve file timestamp when copying.
  * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
