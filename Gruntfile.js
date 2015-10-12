@@ -65,6 +65,12 @@ module.exports = function(grunt) {
         ]
       },
 
+      multiple: {
+        files: [
+          {src: ['test/fixtures/test.js', 'test/fixtures/test2.js'], dest: 'tmp/copy_test_multiple/'}
+        ]
+      },
+
       mode: {
         options: {
           mode: '0444'
