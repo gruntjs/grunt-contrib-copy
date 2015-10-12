@@ -185,7 +185,7 @@ copy: {
 },
 ```
 
-Here all occurences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
+Here all occurrences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
 
 To process all files in a directory, the `process` function is used in exactly the same way.
 
@@ -222,7 +222,7 @@ Aborted due to warnings.
 
  * 2015-08-20   v0.8.1   Update `chalk` dependency.
  * 2015-02-20   v0.8.0   Performance improvements. The `mode` option now also applies to directories. Fix path issue on Windows.
- * 2014-10-15   v0.7.0   Add timestamp option to disable preseving timestamp when copying.
+ * 2014-10-15   v0.7.0   Add timestamp option to disable preserving timestamp when copying.
  * 2014-09-17   v0.6.0   Update chalk dependency and other devDependencies. Preserve file timestamp when copying.
  * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
@@ -241,4 +241,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Thu Aug 20 2015 17:05:25.*
+*This file was generated on Mon Oct 12 2015 10:02:30.*

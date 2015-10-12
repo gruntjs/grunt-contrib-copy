@@ -120,7 +120,7 @@ copy: {
 },
 ```
 
-Here all occurences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
+Here all occurrences of the letters "s", "a" and "d", as well as all spaces, will be changed to underlines in "a.bak". Of course, you are not limited to just using regex replacements.
 
 To process all files in a directory, the `process` function is used in exactly the same way.
 
