@@ -1,10 +1,10 @@
+'use strict';
+
 var grunt = require('grunt');
 var fs = require('fs');
 
 exports.copy = {
   main: function(test) {
-    'use strict';
-
     test.expect(3);
 
     var actual = fs.readdirSync('tmp/copy_test_files').sort();
@@ -23,8 +23,6 @@ exports.copy = {
   },
 
   flatten: function(test) {
-    'use strict';
-
     test.expect(1);
 
     var actual = fs.readdirSync('tmp/copy_test_flatten').sort();
@@ -35,8 +33,6 @@ exports.copy = {
   },
 
   single: function(test) {
-    'use strict';
-
     test.expect(1);
 
     var actual = grunt.file.read('tmp/single.js');
@@ -47,8 +43,6 @@ exports.copy = {
   },
 
   mode: function(test) {
-    'use strict';
-
     test.expect(1);
 
     test.equal(fs.lstatSync('tmp/mode.js').mode.toString(8).slice(-3), '444');
@@ -57,7 +51,6 @@ exports.copy = {
   },
 
   modeDir: function(test) {
-    'use strict';
     test.expect(2);
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), '777');
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), '777');
@@ -65,17 +58,14 @@ exports.copy = {
   },
 
   process: function(test) {
-    'use strict';
-
     test.expect(2);
     test.equal(fs.lstatSync('tmp/process/beep.wav').size, fs.lstatSync('test/fixtures/beep.wav').size);
     test.notEqual(fs.lstatSync('tmp/process/test2.js').size, fs.lstatSync('test/fixtures/test2.js').size);
 
     test.done();
   },
-  timestamp: function(test) {
-    'use strict';
 
+  timestamp: function(test) {
     test.expect(4);
 
     test.equal(fs.lstatSync('tmp/copy_test_timestamp/sub_folder').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/sub_folder').mtime.getTime());
