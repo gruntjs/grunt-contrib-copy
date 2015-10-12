@@ -89,7 +89,7 @@ module.exports = function(grunt) {
       process: {
         options: {
           noProcess: ['test/fixtures/beep.wav'],
-          process: function (content, srcpath) {
+          process: function (content) {
             return content + '/* comment */';
           }
         },

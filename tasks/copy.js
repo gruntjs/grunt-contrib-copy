@@ -13,7 +13,6 @@ module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
   var chalk = require('chalk');
-  var crypto = require('crypto');
   var fileSyncCmp = require('file-sync-cmp');
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
