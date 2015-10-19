@@ -1,3 +1,5 @@
+'use strict';
+
 var grunt = require('grunt');
 var fs = require('fs');
 
@@ -21,8 +23,6 @@ exports.copy = {
   },
 
   noexpandWild: function(test) {
-    'use strict';
-
     test.expect(3);
 
     ['/', '/test/', '/test/fixtures/'].forEach(function(subpath, i) {
