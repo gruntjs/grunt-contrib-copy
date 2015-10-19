@@ -1,3 +1,7 @@
+v0.8.2:
+  date: 2015-10-19
+  changes:
+    - Fix expand-less copies with multiple files.
 v0.8.1:
   date: 2015-08-20
   changes:
