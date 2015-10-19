@@ -22,6 +22,20 @@ exports.copy = {
     test.done();
   },
 
+  noexpandWild: function(test) {
+    'use strict';
+
+    test.expect(3);
+
+    ['/', '/test/', '/test/fixtures/'].forEach(function(subpath, i) {
+      var actual = fs.readdirSync('tmp/copy_test_noexpandWild' + subpath).sort();
+      var expected = fs.readdirSync('test/expected/copy_test_noexpandWild' + subpath).sort();
+      test.deepEqual(expected, actual, 'should copy file structure at level ' + i);
+    });
+
+    test.done();
+  },
+
   flatten: function(test) {
     test.expect(1);
 
