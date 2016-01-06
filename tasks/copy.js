@@ -24,6 +24,7 @@ module.exports = function(grunt) {
       processContentExclude: [],
       timestamp: false,
       mode: false,
+      onlyNewer : false,
     });
 
     var copyOptions = {
@@ -48,6 +49,10 @@ module.exports = function(grunt) {
 
         if (detectDestType(dest) === 'directory') {
           dest = (isExpandedPair) ? dest : path.join(dest, src);
+        }
+
+        if (options.onlyNewer && !isNewer(src, dest)) {
+          return;
         }
 
         if (grunt.file.isDir(src)) {
@@ -120,5 +125,16 @@ module.exports = function(grunt) {
     }
 
     fs.utimesSync(dest, stat.atime, stat.mtime);
+  };
+
+  var isNewer = function(src, dest) {
+    if (!fs.existsSync(dest)) {
+      return true;
+    }
+
+    var statSrc = fs.lstatSync(src);
+    var statDest = fs.lstatSync(dest);
+
+    return statSrc.mtime.getDate() > statDest.mtime.getDate();
   };
 };
