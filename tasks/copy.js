@@ -7,9 +7,9 @@
  * https://github.com/gruntjs/grunt-contrib-copy/blob/master/LICENSE-MIT
  */
 
-module.exports = function(grunt) {
-  'use strict';
+'use strict';
 
+module.exports = function(grunt) {
   var path = require('path');
   var fs = require('fs');
   var chalk = require('chalk');
@@ -23,20 +23,20 @@ module.exports = function(grunt) {
       processContent: false,
       processContentExclude: [],
       timestamp: false,
-      mode: false,
+      mode: false
     });
 
     var copyOptions = {
       encoding: options.encoding,
       process: options.process || options.processContent,
-      noProcess: options.noProcess || options.processContentExclude,
+      noProcess: options.noProcess || options.processContentExclude
     };
 
     var isExpandedPair;
     var dirs = {};
     var tally = {
       dirs: 0,
-      files: 0,
+      files: 0
     };
 
     this.files.forEach(function(filePair) {
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         var dest = unixifyPath(filePair.dest);
 
         if (detectDestType(dest) === 'directory') {
-          dest = (isExpandedPair) ? dest : path.join(dest, src);
+          dest = isExpandedPair ? dest : path.join(dest, src);
         }
 
         if (grunt.file.isDir(src)) {
