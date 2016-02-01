@@ -2,6 +2,7 @@
 
 var grunt = require('grunt');
 var fs = require('fs');
+var isWindows = /^win/.test(process.platform);
 
 exports.copy = {
   main: function(test) {
@@ -64,8 +65,10 @@ exports.copy = {
 
   modeDir: function(test) {
     test.expect(2);
-    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), '777');
-    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), '777');
+    // on windows DIRs do not have 'executable' flag, see: https://github.com/nodejs/node/blob/master/deps/uv/src/win/fs.c#L1064
+    var expectedMode = isWindows ? '666' : '777';
+    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), expectedMode);
+    test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), expectedMode);
     test.done();
   },
 
