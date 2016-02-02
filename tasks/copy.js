@@ -63,6 +63,9 @@ module.exports = function(grunt) {
 
           tally.dirs++;
         } else {
+          //output warning if file exists
+          fileExists(dest);
+
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
           syncTimestamp(src, dest);
@@ -75,9 +78,9 @@ module.exports = function(grunt) {
     });
 
     if (options.timestamp) {
-      Object.keys(dirs).sort(function (a, b) {
+      Object.keys(dirs).sort(function(a, b) {
         return b.length - a.length;
-      }).forEach(function (dest) {
+      }).forEach(function(dest) {
         syncTimestamp(dirs[dest], dest);
       });
     }
@@ -109,7 +112,7 @@ module.exports = function(grunt) {
     }
   };
 
-  var syncTimestamp = function (src, dest) {
+  var syncTimestamp = function(src, dest) {
     var stat = fs.lstatSync(src);
     if (path.basename(src) !== path.basename(dest)) {
       return;
@@ -120,5 +123,18 @@ module.exports = function(grunt) {
     }
 
     fs.utimesSync(dest, stat.atime, stat.mtime);
+  };
+
+  var fileExists = function(src) {
+    var exists;
+
+    try {
+      exists = fs.statSync(src);
+    } catch (e) {
+      grunt.verbose.writeln(' #File ' + src + ' not exists!');
+    }
+    if (exists && exists.isFile()) {
+      grunt.log.writeln(' Warning: file ' + chalk.red(src) + ' already exists! it will be overwritten.');
+    }
   };
 };
