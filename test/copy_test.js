@@ -2,7 +2,7 @@
 
 var grunt = require('grunt');
 var fs = require('fs');
-var isWindows = /^win/.test(process.platform);
+var isWindows = process.platform === 'win32';
 
 exports.copy = {
   main: function(test) {
@@ -80,14 +80,22 @@ exports.copy = {
     test.done();
   },
 
-  timestamp: function(test) {
-    test.expect(4);
-
+  timestamp_equal: function(test) {
+    if (isWindows) {
+        // Known Issue: this test will not pass on Windows due to bug in nodejs (https://github.com/nodejs/node/issues/2069)
+        test.done();
+        return;
+    }
+    test.expect(2);
     test.equal(fs.lstatSync('tmp/copy_test_timestamp/sub_folder').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/sub_folder').mtime.getTime());
     test.equal(fs.lstatSync('tmp/copy_test_timestamp/test.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test.js').mtime.getTime());
+    test.done();
+  },
+
+  timestamp_changed: function(test) {
+    test.expect(2);
     test.notEqual(fs.lstatSync('tmp/copy_test_timestamp/test1.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test.js').mtime.getTime());
     test.notEqual(fs.lstatSync('tmp/copy_test_timestamp/test_process.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test_process.js').mtime.getTime());
-
     test.done();
   }
 };

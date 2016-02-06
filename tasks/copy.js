@@ -14,7 +14,7 @@ module.exports = function(grunt) {
   var fs = require('fs');
   var chalk = require('chalk');
   var fileSyncCmp = require('file-sync-cmp');
-  var isWindows = /^win/.test(process.platform);
+  var isWindows = process.platform === 'win32';
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
 
