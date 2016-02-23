@@ -39,6 +39,7 @@ $ tree -I node_modules
 ```js
 copy: {
   main: {
+    expand: true,
     src: 'src/*',
     dest: 'dest/',
   },

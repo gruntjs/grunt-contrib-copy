@@ -103,6 +103,7 @@ $ tree -I node_modules
 ```js
 copy: {
   main: {
+    expand: true,
     src: 'src/*',
     dest: 'dest/',
   },
@@ -241,4 +242,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Mon Feb 01 2016 11:25:13.*
+*This file was generated on Tue Feb 23 2016 15:40:33.*
