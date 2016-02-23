@@ -131,6 +131,39 @@ $ tree -I node_modules
 5 directories, 4 files
 ```
 
+**Copying without full path:**
+```js
+copy: {
+  main: {
+    expand: true,
+    cwd: 'src',
+    src: '**',
+    dest: 'dest/',
+  },
+},
+```
+
+```shell
+$ grunt copy
+Running "copy:main" (copy) task
+Created 2 directories, copied 2 files
+
+Done, without errors.
+$ tree -I node_modules
+.
+├── Gruntfile.js
+├── dest
+│   ├── a
+│   └── subdir
+│       └── b
+└── src
+    ├── a
+    └── subdir
+        └── b
+
+5 directories, 5 files
+```
+
 **Flattening the filepath output:**
 
 ```js
@@ -242,4 +275,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Tue Feb 23 2016 15:40:33.*
+*This file was generated on Tue Feb 23 2016 15:49:48.*
