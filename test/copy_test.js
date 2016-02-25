@@ -65,7 +65,8 @@ exports.copy = {
 
   modeDir: function(test) {
     test.expect(2);
-    // on windows DIRs do not have 'executable' flag, see: https://github.com/nodejs/node/blob/master/deps/uv/src/win/fs.c#L1064
+    // on Windows DIRs do not have 'executable' flag, see
+    // https://github.com/nodejs/node/blob/master/deps/uv/src/win/fs.c#L1064
     var expectedMode = isWindows ? '666' : '777';
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder').mode.toString(8).slice(-3), expectedMode);
     test.equal(fs.lstatSync('tmp/copy_test_modeDir/time_folder/sub_folder').mode.toString(8).slice(-3), expectedMode);
@@ -82,7 +83,8 @@ exports.copy = {
 
   timestamp_equal: function(test) {
     if (isWindows) {
-        // Known Issue: this test will not pass on Windows due to bug in nodejs (https://github.com/nodejs/node/issues/2069)
+        // Known Issue: this test will not pass on Windows due to a bug in node.js
+        // https://github.com/nodejs/node/issues/2069
         test.done();
         return;
     }
