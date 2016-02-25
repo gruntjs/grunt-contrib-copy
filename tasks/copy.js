@@ -14,6 +14,7 @@ module.exports = function(grunt) {
   var fs = require('fs');
   var chalk = require('chalk');
   var fileSyncCmp = require('file-sync-cmp');
+  var isWindows = process.platform === 'win32';
 
   grunt.registerMultiTask('copy', 'Copy files.', function() {
 
@@ -102,7 +103,7 @@ module.exports = function(grunt) {
   };
 
   var unixifyPath = function(filepath) {
-    if (process.platform === 'win32') {
+    if (isWindows) {
       return filepath.replace(/\\/g, '/');
     } else {
       return filepath;
@@ -119,6 +120,8 @@ module.exports = function(grunt) {
       return;
     }
 
-    fs.utimesSync(dest, stat.atime, stat.mtime);
+    var fd = fs.openSync(dest, isWindows ? 'r+' : 'r');
+    fs.futimesSync(fd, stat.atime, stat.mtime);
+    fs.closeSync(fd);
   };
 };
