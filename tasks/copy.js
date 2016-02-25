@@ -33,6 +33,37 @@ module.exports = function(grunt) {
       noProcess: options.noProcess || options.processContentExclude
     };
 
+    var detectDestType = function(dest) {
+      if (grunt.util._.endsWith(dest, '/')) {
+        return 'directory';
+      } else {
+        return 'file';
+      }
+    };
+
+    var unixifyPath = function(filepath) {
+      if (isWindows) {
+        return filepath.replace(/\\/g, '/');
+      } else {
+        return filepath;
+      }
+    };
+
+    var syncTimestamp = function (src, dest) {
+      var stat = fs.lstatSync(src);
+      if (path.basename(src) !== path.basename(dest)) {
+        return;
+      }
+
+      if (stat.isFile() && !fileSyncCmp.equalFiles(src, dest)) {
+        return;
+      }
+
+      var fd = fs.openSync(dest, isWindows ? 'r+' : 'r');
+      fs.futimesSync(fd, stat.atime, stat.mtime);
+      fs.closeSync(fd);
+    };
+
     var isExpandedPair;
     var dirs = {};
     var tally = {
@@ -94,34 +125,4 @@ module.exports = function(grunt) {
     grunt.log.writeln();
   });
 
-  var detectDestType = function(dest) {
-    if (grunt.util._.endsWith(dest, '/')) {
-      return 'directory';
-    } else {
-      return 'file';
-    }
-  };
-
-  var unixifyPath = function(filepath) {
-    if (isWindows) {
-      return filepath.replace(/\\/g, '/');
-    } else {
-      return filepath;
-    }
-  };
-
-  var syncTimestamp = function (src, dest) {
-    var stat = fs.lstatSync(src);
-    if (path.basename(src) !== path.basename(dest)) {
-      return;
-    }
-
-    if (stat.isFile() && !fileSyncCmp.equalFiles(src, dest)) {
-      return;
-    }
-
-    var fd = fs.openSync(dest, isWindows ? 'r+' : 'r');
-    fs.futimesSync(fd, stat.atime, stat.mtime);
-    fs.closeSync(fd);
-  };
 };
