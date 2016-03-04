@@ -1,3 +1,9 @@
+v1.0.0:
+  date: 2016-03-04
+  changes:
+    - Bump devDependencies.
+    - Add example of using relative path.
+    - Point main to task and remove peerDeps.
 v0.8.2:
   date: 2015-10-19
   changes:

@@ -1,4 +1,4 @@
-# grunt-contrib-copy v0.8.2 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy) [![Build Status: Windows](https://ci.appveyor.com/api/projects/status/fe6l517l01ys2y86/branch/master?svg=true)](https://ci.appveyor.com/project/gruntjs/grunt-contrib-copy/branch/master)
+# grunt-contrib-copy v1.0.0 [![Build Status: Linux](https://travis-ci.org/gruntjs/grunt-contrib-copy.svg?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-copy) [![Build Status: Windows](https://ci.appveyor.com/api/projects/status/fe6l517l01ys2y86/branch/master?svg=true)](https://ci.appveyor.com/project/gruntjs/grunt-contrib-copy/branch/master)
 
 > Copy files and folders
 
@@ -253,6 +253,7 @@ Aborted due to warnings.
 
 ## Release History
 
+ * 2016-03-04   v1.0.0   Bump devDependencies. Add example of using relative path. Point main to task and remove peerDeps.
  * 2015-10-19   v0.8.2   Fix expand-less copies with multiple files.
  * 2015-08-20   v0.8.1   Update `chalk` dependency.
  * 2015-02-20   v0.8.0   Performance improvements. The `mode` option now also applies to directories. Fix path issue on Windows.
@@ -275,4 +276,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Tue Feb 23 2016 15:49:48.*
+*This file was generated on Fri Mar 04 2016 15:50:24.*
