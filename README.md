@@ -259,16 +259,16 @@ Aborted due to warnings.
  * 2015-02-20   v0.8.0   Performance improvements. The `mode` option now also applies to directories. Fix path issue on Windows.
  * 2014-10-15   v0.7.0   Add timestamp option to disable preserving timestamp when copying.
  * 2014-09-17   v0.6.0   Update chalk dependency and other devDependencies. Preserve file timestamp when copying.
- * 2013-12-23   v0.5.0   If an encoding is specified, overwrite grunt.file.defaultEncoding. Rename processContent/processContentExclude to process/noProcess to match Grunt API. mode option to copy existing or set file permissions.
+ * 2013-12-23   v0.5.0   If an encoding is specified, overwrite `grunt.file.defaultEncoding`. Rename `processContent`/`processContentExclude` to `process`/`noProcess` to match Grunt API. `mode` option to copy existing or set file permissions.
  * 2013-03-26   v0.4.1   Output summary by default ("Copied N files, created M folders"). Individual transaction output available via `--verbose`.
  * 2013-02-15   v0.4.0   First official release for Grunt 0.4.0.
  * 2013-01-23   v0.4.0rc7   Updating grunt/gruntplugin dependencies to rc7. Changing in-development grunt/gruntplugin dependency versions from tilde version ranges to specific versions.
- * 2013-01-14   v0.4.0rc5   Updating to work with grunt v0.4.0rc5. Conversion to grunt v0.4 conventions. Replace basePath with cwd. Empty directory support.
- * 2012-10-18   v0.3.2   Pass copyOptions on single file copy.
+ * 2013-01-14   v0.4.0rc5   Updating to work with grunt v0.4.0rc5. Conversion to grunt v0.4 conventions. Replace `basePath` with `cwd`. Empty directory support.
+ * 2012-10-18   v0.3.2   Pass `copyOptions` on single file copy.
  * 2012-10-12   v0.3.1   Rename grunt-contrib-lib dep to grunt-lib-contrib.
  * 2012-09-24   v0.3.0   General cleanup and consolidation. Global options depreciated.
  * 2012-09-18   v0.2.4   No valid source check.
- * 2012-09-17   v0.2.3   Path.sep fallback for node <= 0.7.9.
+ * 2012-09-17   v0.2.3   `path.sep` fallback for Node.js <= 0.7.9.
  * 2012-09-17   v0.2.2   Single file copy support. Test refactoring.
  * 2012-09-07   v0.2.0   Refactored from grunt-contrib into individual repo.
 
@@ -276,4 +276,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Fri Mar 04 2016 15:50:24.*
+*This file was generated on Fri Mar 18 2016 19:23:57.*

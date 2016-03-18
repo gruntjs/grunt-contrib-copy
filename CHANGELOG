@@ -30,9 +30,9 @@ v0.6.0:
 v0.5.0:
   date: 2013-12-23
   changes:
-    - If an encoding is specified, overwrite grunt.file.defaultEncoding.
-    - Rename processContent/processContentExclude to process/noProcess to match Grunt API.
-    - mode option to copy existing or set file permissions.
+    - If an encoding is specified, overwrite `grunt.file.defaultEncoding`.
+    - Rename `processContent`/`processContentExclude` to `process`/`noProcess` to match Grunt API.
+    - '`mode` option to copy existing or set file permissions.'
 v0.4.1:
   date: 2013-03-26
   changes:
@@ -51,12 +51,12 @@ v0.4.0rc5:
   changes:
     - Updating to work with grunt v0.4.0rc5.
     - Conversion to grunt v0.4 conventions.
-    - Replace basePath with cwd.
+    - Replace `basePath` with `cwd`.
     - Empty directory support.
 v0.3.2:
   date: 2012-10-18
   changes:
-    - Pass copyOptions on single file copy.
+    - Pass `copyOptions` on single file copy.
 v0.3.1:
   date: 2012-10-12
   changes:
@@ -73,7 +73,7 @@ v0.2.4:
 v0.2.3:
   date: 2012-09-17
   changes:
-    - Path.sep fallback for node <= 0.7.9.
+    - '`path.sep` fallback for Node.js <= 0.7.9.'
 v0.2.2:
   date: 2012-09-17
   changes:
