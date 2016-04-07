@@ -211,7 +211,7 @@ copy: {
     dest: 'src/a.bak',
     options: {
       process: function (content, srcpath) {
-        return content.replace(/[sad ]/g,"_");
+        return content.replace(/[sad ]/g, '_');
       },
     },
   },
@@ -276,4 +276,4 @@ Aborted due to warnings.
 
 Task submitted by [Chris Talkington](http://christalkington.com/)
 
-*This file was generated on Fri Mar 18 2016 19:23:57.*
+*This file was generated on Thu Apr 07 2016 15:11:09.*
