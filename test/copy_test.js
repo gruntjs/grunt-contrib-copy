@@ -81,12 +81,12 @@ exports.copy = {
     test.done();
   },
 
-  timestamp_equal: function(test) {
+  timestampEqual: function(test) {
     if (isWindows) {
-        // Known Issue: this test will not pass on Windows due to a bug in node.js
-        // https://github.com/nodejs/node/issues/2069
-        test.done();
-        return;
+      // Known Issue: this test will not pass on Windows due to a bug in node.js
+      // https://github.com/nodejs/node/issues/2069
+      test.done();
+      return;
     }
     test.expect(2);
     test.equal(fs.lstatSync('tmp/copy_test_timestamp/sub_folder').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/sub_folder').mtime.getTime());
@@ -94,7 +94,7 @@ exports.copy = {
     test.done();
   },
 
-  timestamp_changed: function(test) {
+  timestampChanged: function(test) {
     test.expect(2);
     test.notEqual(fs.lstatSync('tmp/copy_test_timestamp/test1.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test.js').mtime.getTime());
     test.notEqual(fs.lstatSync('tmp/copy_test_timestamp/test_process.js').mtime.getTime(), fs.lstatSync('test/fixtures/time_folder/test_process.js').mtime.getTime());

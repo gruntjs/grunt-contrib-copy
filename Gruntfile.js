@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       test: ['tmp']
     },
 
-    test_vars: {
+    testVars: {
       name: 'grunt-contrib-copy',
       version: '0.1.0',
       match: 'folder_one/*'
@@ -41,33 +41,33 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'test/fixtures', src: ['*.js'], dest: 'tmp/copy_test_files/'},
-          {expand: true, cwd: 'test/fixtures', src: ['**', '!*.wav'], dest: 'tmp/copy_test_mix/'},
-          {expand: true, cwd: 'test/fixtures', src: ['<%= test_vars.match %>'], dest: 'tmp/copy_test_v<%= test_vars.version %>/'}
+          { expand: true, cwd: 'test/fixtures', src: ['*.js'], dest: 'tmp/copy_test_files/' },
+          { expand: true, cwd: 'test/fixtures', src: ['**', '!*.wav'], dest: 'tmp/copy_test_mix/' },
+          { expand: true, cwd: 'test/fixtures', src: ['<%= testVars.match %>'], dest: 'tmp/copy_test_v<%= testVars.version %>/' }
         ]
       },
 
       noexpandWild: {
         files: [
-          {src: 'test/fixtures/*.js', dest: 'tmp/copy_test_noexpandWild/'}
+          { src: 'test/fixtures/*.js', dest: 'tmp/copy_test_noexpandWild/' }
         ]
       },
 
       flatten: {
         files: [
-          {expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**', '!**/*.wav'], dest: 'tmp/copy_test_flatten/'}
+          { expand: true, flatten: true, filter: 'isFile', src: ['test/fixtures/**', '!**/*.wav'], dest: 'tmp/copy_test_flatten/' }
         ]
       },
 
       single: {
         files: [
-          {src: ['test/fixtures/test.js'], dest: 'tmp/single.js'}
+          { src: ['test/fixtures/test.js'], dest: 'tmp/single.js' }
         ]
       },
 
       verbose: {
         files: [
-          {expand: true, src: ['test/fixtures/**'], dest: 'tmp/copy_test_verbose/'}
+          { expand: true, src: ['test/fixtures/**'], dest: 'tmp/copy_test_verbose/' }
         ]
       },
 
@@ -83,13 +83,12 @@ module.exports = function(grunt) {
         options: {
           mode: '0777'
         },
-        files: [
-          {
-            expand: true,
-            cwd: 'test/fixtures/',
-            src: ['time_folder/**'],
-            dest: 'tmp/copy_test_modeDir/'}
-        ]
+        files: [{
+          expand: true,
+          cwd: 'test/fixtures/',
+          src: ['time_folder/**'],
+          dest: 'tmp/copy_test_modeDir/'
+        }]
       },
 
       process: {
@@ -104,18 +103,18 @@ module.exports = function(grunt) {
 
       timestamp: {
         options: {
-            process: function (content, srcpath) {
-                if (srcpath === 'test/fixtures/time_folder/test_process.js') {
-                    return 'with process and file contents were changed';
-                } else {
-                    return content;
-                }
-            },
-            timestamp: true
+          process: function (content, srcpath) {
+            if (srcpath === 'test/fixtures/time_folder/test_process.js') {
+              return 'with process and file contents were changed';
+            } else {
+              return content;
+            }
+          },
+          timestamp: true
         },
         files: [
-            {expand: true, cwd: 'test/fixtures/time_folder/', src: ['**'], dest: 'tmp/copy_test_timestamp/'},
-            {src: 'test/fixtures/time_folder/test.js', dest:'tmp/copy_test_timestamp/test1.js'}
+            { expand: true, cwd: 'test/fixtures/time_folder/', src: ['**'], dest: 'tmp/copy_test_timestamp/' },
+            { src: 'test/fixtures/time_folder/test.js', dest: 'tmp/copy_test_timestamp/test1.js' }
         ]
       }
     },
