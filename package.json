@@ -6,6 +6,7 @@
     "name": "Grunt Team",
     "url": "http://gruntjs.com/"
   },
+  "homepage" : "http://www.npmjs.com/package/grunt-contrib-copy",
   "repository": "gruntjs/grunt-contrib-copy",
   "license": "MIT",
   "engines": {
