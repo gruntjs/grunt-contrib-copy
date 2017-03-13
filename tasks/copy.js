@@ -96,6 +96,13 @@ module.exports = function(grunt) {
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
+
+          if (detectDestType(unixifyPath(filePair.dest)) === 'directory') {
+            var fileName = path.basename(src);
+
+            dest = path.join(unixifyPath(filePair.dest), fileName);
+          }
+
           grunt.file.copy(src, dest, copyOptions);
           syncTimestamp(src, dest);
           if (options.mode !== false) {
