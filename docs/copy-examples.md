@@ -163,7 +163,7 @@ NOTE: If `process` is not working, be aware it was called `processContent` in v0
 
 ### Troubleshooting
 
-By default, if a file or directory is not found it is quietly ignored. If the file should exist, and non-existence generate an error, then add `nonull:true`. For instance, this Gruntfile.js entry:
+By default, if a file or directory is not found it is quietly ignored. If the file should exist, and non-existence generates an error, then add `nonull:true`. For instance, this Gruntfile.js entry:
 
 ```js
 copy: {
