@@ -97,7 +97,9 @@ module.exports = function(grunt) {
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
           grunt.file.copy(src, dest, copyOptions);
-          syncTimestamp(src, dest);
+          if (options.timestamp !== false) {
+            syncTimestamp(src, dest);
+          }
           if (options.mode !== false) {
             fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
           }
