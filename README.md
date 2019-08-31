@@ -67,6 +67,9 @@ Whether to preserve the timestamp attributes(`atime` and `mtime`) when copying f
 ```js
 copy: {
   main: {
+    options: {
+      mode: true
+    },
     files: [
       // includes files within path
       {expand: true, src: ['path/*'], dest: 'dest/', filter: 'isFile'},
