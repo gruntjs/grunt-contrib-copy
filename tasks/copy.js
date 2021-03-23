@@ -96,12 +96,17 @@ module.exports = function(grunt) {
           tally.dirs++;
         } else {
           grunt.verbose.writeln('Copying ' + chalk.cyan(src) + ' -> ' + chalk.cyan(dest));
-          grunt.file.copy(src, dest, copyOptions);
-          if (options.timestamp !== false) {
-            syncTimestamp(src, dest);
-          }
-          if (options.mode !== false) {
-            fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+          // use 8x faster copy if possible.
+          if (fs.copyFileSync && options.mode !== false && options.timestamp !== false && !options.process) {
+            fs.copyFileSync(src, dest);
+          } else {
+            grunt.file.copy(src, dest, copyOptions);
+            if (options.timestamp !== false) {
+              syncTimestamp(src, dest);
+            }
+            if (options.mode !== false) {
+              fs.chmodSync(dest, (options.mode === true) ? fs.lstatSync(src).mode : options.mode);
+            }
           }
           tally.files++;
         }
